@@ -1,93 +1,65 @@
 import React from "react";
 
-const CommunitySection = ({ title, imageSrc, description }) => {
-    return (
-        <div className="relative h-48 md:h-64 overflow-hidden group mb-4">
-            {/* Background Image */}
-            <img
-                src={imageSrc}
-                alt={title}
-                className="absolute inset-0 w-full h-full object-cover group-hover:scale-105 transition-transform duration-700"
-            />
-
-            {/* Dark Overlay */}
-            <div className="absolute inset-0 bg-black bg-opacity-40 group-hover:bg-opacity-30 transition-opacity duration-300"></div>
-
-            {/* Content */}
-            <div className="absolute inset-0 flex flex-col justify-end p-6">
-                <h3 className="text-white text-2xl md:text-3xl font-bold">
-                    {title}
-                </h3>
-                <p className="text-gray-200 text-sm md:text-base mt-2 max-w-md opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                    {description}
-                </p>
-            </div>
-        </div>
-    );
-};
-
 const Community = () => {
-    const sections = [
-        {
-            title: "Forums",
-            imageSrc: "/icons/forum.png",
-            description:
-                "Join discussions with fellow enthusiasts and share your experiences.",
-        },
-        {
-            title: "Rides",
-            imageSrc: "/icons/rides.png",
-            description:
-                "Discover group rides and events happening in your area.",
-        },
-        {
-            title: "Submit",
-            imageSrc: "/icons/submit.png",
-            description:
-                "Share your stories, photos, and videos with our community.",
-        },
-        {
-            title: "Merch",
-            imageSrc: "/icons/merch.png",
-            description:
-                "Exclusive apparel and accessories for true enthusiasts.",
-        },
-    ];
-
     return (
-        <div className="w-full relative overflow-hidden font-jura">
-            {/* Background Video for entire component */}
+        <div className="flex flex-col w-full font-jura relative p-8 pb-26">
+            {/* Background Video */}
             <video
-                className="absolute inset-0 w-full h-full object-cover opacity-20"
+                preload="none"
+                muted
                 autoPlay
                 loop
-                muted
-                playsInline
+                className="absolute top-0 left-0 w-full h-full object-cover"
             >
-                <source src="/videos/community-bg.mp4" type="video/mp4" />
+                <source src="/videos/community-vid.mp4" type="video/mp4" />
             </video>
 
-            {/* Dark overlay for better content visibility */}
-            <div className="absolute inset-0 bg-black bg-opacity-70"></div>
+            {/* Dark Overlay */}
+            <div className="absolute top-0 left-0 w-full h-full bg-black/70"></div>
 
-            {/* Content Container */}
-            <div className="relative z-10 p-6 md:p-8">
-                <div className="mb-6">
-                    <h2 className="text-4xl font-bold text-white">Community</h2>
-                    <p className="text-xl text-gray-300">
-                        Connect with fellow enthusiasts
-                    </p>
+            {/* Title Section */}
+            <div className="relative w-full pb-2 z-10 text-center">
+                <h2 className="text-6xl font-semibold tracking-wider text-white pb-2">
+                    Community
+                </h2>
+                <p className="text-2xl font-semibold text-white/80 mb-6">
+                    Connect with the community
+                </p>
+            </div>
+
+            {/* Grid Section */}
+            <div className="relative grid grid-cols-1 md:grid-cols-2 gap-x-12 gap-y-12 z-10 mx-auto">
+                <div className="forums flex flex-col items-center w-80 bg-white/20 backdrop-blur-sm rounded-2xl py-6 shadow-lg transition-all hover:scale-105 hover:bg-white/30">
+                    <img
+                        src="/icons/forum.png"
+                        alt="Forum"
+                        className="h-30 w-30 mb-2"
+                    />
+                    <p className="text-xl font-bold text-white">Forum</p>
                 </div>
-
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                    {sections.map((section, index) => (
-                        <CommunitySection
-                            key={index}
-                            title={section.title}
-                            imageSrc={section.imageSrc}
-                            description={section.description}
-                        />
-                    ))}
+                <div className="rides flex flex-col items-center w-80 bg-white/20 backdrop-blur-sm rounded-2xl py-6 shadow-lg transition-all hover:scale-105 hover:bg-white/30">
+                    <img
+                        src="/icons/trips.png"
+                        alt="Rides"
+                        className="h-30 w-30 mb-2"
+                    />
+                    <p className="text-xl font-bold text-white">Rides</p>
+                </div>
+                <div className="submit flex flex-col items-center w-80 bg-white/20 backdrop-blur-sm rounded-2xl py-6 shadow-lg transition-all hover:scale-105 hover:bg-white/30">
+                    <img
+                        src="/icons/submit.png"
+                        alt="Submit"
+                        className="h-30 w-30 mb-2"
+                    />
+                    <p className="text-xl font-bold text-white">Submit</p>
+                </div>
+                <div className="merch flex flex-col items-center w-80 bg-white/20 backdrop-blur-sm rounded-2xl py-6 shadow-lg transition-all hover:scale-105 hover:bg-white/30">
+                    <img
+                        src="/icons/merch.png"
+                        alt="Merch"
+                        className="h-30 w-30 mb-2"
+                    />
+                    <p className="text-xl font-bold text-white">Merch</p>
                 </div>
             </div>
         </div>

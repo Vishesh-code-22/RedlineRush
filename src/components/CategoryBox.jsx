@@ -2,15 +2,15 @@ import React from "react";
 
 const CategoryItem = ({ image, title, subtitle }) => {
     return (
-        <div className="mb-12">
-            <div className="mb-3">
+        <div>
+            <div className="pb-3">
                 <img
                     src={image}
                     alt={title}
                     className="w-full object-cover aspect-[4/3] rounded"
                 />
             </div>
-            <h3 className="text-xl font-bold leading-tight">{title}</h3>
+            <h3 className="text-xl font-bold">{title}</h3>
             {subtitle && (
                 <p className="text-gray-400 text-sm mt-1">{subtitle}</p>
             )}
@@ -43,7 +43,7 @@ const CategoryBox = () => {
     ];
 
     return (
-        <div className="w-full font-jura">
+        <div className="w-full font-jura px-8 pb-6">
             <div className="mb-6">
                 <h2 className="text-6xl font-semibold tracking-wider font-jura">
                     Categories
@@ -53,7 +53,7 @@ const CategoryBox = () => {
                 </p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-2">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12">
                 {categories.map((item, index) => (
                     <CategoryItem
                         key={index}

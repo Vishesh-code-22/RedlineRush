@@ -1,9 +1,14 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import gsap from "gsap";
+import { useGSAP } from "@gsap/react";
+import { ScrollTrigger } from "gsap/all";
+gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
     const [isOpen, setIsOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+    const scrollRef = useRef();
 
     // Mock user state - replace with your actual auth logic
     const [userState, setUserState] = useState({
@@ -39,10 +44,33 @@ const Navbar = () => {
         }
     };
 
+    useGSAP(() => {
+        ScrollTrigger.create({
+            trigger: document.body,
+            start: "top top",
+            end: "+=100",
+            onEnter: () => {
+                gsap.to(scrollRef.current, {
+                    height: "3rem",
+                    duration: 0.3,
+                });
+            },
+            onLeaveBack: () => {
+                gsap.to(scrollRef.current, {
+                    height: "5.5rem",
+                    duration: 0.3,
+                });
+            },
+        });
+    }, []);
+
     return (
-        <nav className="bg-white shadow-sm">
+        <nav className="bg-white shadow-sm sticky top-0 z-20">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-6">
-                <div className="flex justify-between h-22">
+                <div
+                    className="height-div flex justify-between h-22"
+                    ref={scrollRef}
+                >
                     {/* Left side - Brand */}
                     <div className="flex items-center">
                         <div className="flex-shrink-0 flex items-center">
