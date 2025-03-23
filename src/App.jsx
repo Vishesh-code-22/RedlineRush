@@ -1,11 +1,11 @@
 import { Footer, Navbar } from "./components";
-import Home from "./pages/Home";
+import { Outlet } from "react-router-dom";
 
 function App() {
     return (
         <>
             <Navbar />
-            <Home />
+            <Outlet />
             <Footer />
         </>
     );

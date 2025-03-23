@@ -28,7 +28,7 @@ const GallaryBox = () => {
         },
     ];
     return (
-        <div className="flex flex-col w-full font-jura relative">
+        <div className="flex flex-col w-full font-jura relative mb-0">
             <div className="relative w-full pb-2 z-10 text-center">
                 <h2 className="text-6xl font-semibold tracking-wider text-black pb-2">
                     Gallary
