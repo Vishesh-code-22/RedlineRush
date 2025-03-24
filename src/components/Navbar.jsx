@@ -2,6 +2,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
+import { Link } from "react-router-dom";
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
@@ -73,7 +74,10 @@ const Navbar = () => {
                 >
                     {/* Left side - Brand */}
                     <div className="flex items-center">
-                        <div className="flex-shrink-0 flex items-center">
+                        <Link
+                            to={"/"}
+                            className="flex-shrink-0 flex items-center"
+                        >
                             <img
                                 src="/icons/speedometer.png"
                                 alt=""
@@ -82,7 +86,7 @@ const Navbar = () => {
                             <span className="ml-2 text-xl font-medium text-gray-900 eurostile-font">
                                 RedlineRush
                             </span>
-                        </div>
+                        </Link>
                     </div>
 
                     {/* Mobile menu button */}

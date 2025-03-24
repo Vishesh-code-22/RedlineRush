@@ -5,6 +5,7 @@ import Community from "./Community";
 import GallaryBox from "./GallaryBox";
 import NewsletterBox from "./NewsletterBox";
 import Footer from "./Footer";
+import HalfCard from "./HalfCard";
 
 export {
     Navbar,
@@ -14,4 +15,5 @@ export {
     GallaryBox,
     NewsletterBox,
     Footer,
+    HalfCard,
 };
