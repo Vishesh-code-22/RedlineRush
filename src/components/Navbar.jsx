@@ -168,9 +168,9 @@ const Navbar = () => {
                                             "Comparos",
                                             "Experience",
                                         ].map((item) => (
-                                            <a
+                                            <Link
+                                                to={`/category/${item}`}
                                                 key={item}
-                                                href={`#${item.toLowerCase()}`}
                                                 className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                                 onClick={() =>
                                                     setCategoryDropdownOpen(
@@ -179,7 +179,7 @@ const Navbar = () => {
                                                 }
                                             >
                                                 {item}
-                                            </a>
+                                            </Link>
                                         ))}
                                     </div>
                                 </div>
@@ -207,12 +207,12 @@ const Navbar = () => {
                                 >
                                     Write
                                 </a>
-                                <a
-                                    href="#about"
+                                <Link
+                                    to={"/about"}
                                     className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                 >
                                     About
-                                </a>
+                                </Link>
                             </>
                         )}
 
@@ -242,12 +242,12 @@ const Navbar = () => {
 
                         {/* Authentication */}
                         {!userState.isLoggedIn ? (
-                            <a
-                                href="#login"
+                            <Link
+                                to={"/login"}
                                 className="ml-2 px-6 py-1 text-xl font-medium text-white bg-black rounded-md hover:bg-gray-800"
                             >
                                 Login
-                            </a>
+                            </Link>
                         ) : (
                             <div className="relative ml-3">
                                 <button
@@ -372,16 +372,16 @@ const Navbar = () => {
                                     "Comparos",
                                     "Experience",
                                 ].map((item) => (
-                                    <a
+                                    <Link
+                                        to={`/category/${item}`}
                                         key={item}
-                                        href={`#${item.toLowerCase()}`}
                                         className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                         onClick={() =>
                                             setCategoryDropdownOpen(false)
                                         }
                                     >
                                         {item}
-                                    </a>
+                                    </Link>
                                 ))}
                             </div>
                         )}
@@ -406,12 +406,12 @@ const Navbar = () => {
                                 >
                                     Write
                                 </a>
-                                <a
-                                    href="#about"
+                                <Link
+                                    to={"/about"}
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     About
-                                </a>
+                                </Link>
                             </>
                         )}
 
@@ -439,12 +439,12 @@ const Navbar = () => {
                         )}
 
                         {!userState.isLoggedIn ? (
-                            <a
-                                href="#login"
+                            <Link
+                                to={"/login"}
                                 className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                             >
                                 Login
-                            </a>
+                            </Link>
                         ) : (
                             <>
                                 <div className="pl-3 pr-4 py-2 flex items-center">

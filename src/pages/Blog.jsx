@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { HalfCard } from "../components";
@@ -25,7 +25,9 @@ const Blog = () => {
         return randomIndexes.map((index) => filteredBlogs[index]);
     };
     const relatedBlogs = relatedBlogsFunction();
-    console.log(relatedBlogs);
+    useEffect(() => {
+        window.scrollTo(0, 0);
+    }, []);
 
     return (
         <div className="main flex flex-col w-full font-jura">

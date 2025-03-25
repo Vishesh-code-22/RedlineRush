@@ -6,6 +6,9 @@ import GallaryBox from "./GallaryBox";
 import NewsletterBox from "./NewsletterBox";
 import Footer from "./Footer";
 import HalfCard from "./HalfCard";
+import Card from "./Card";
+import LoginComp from "./LoginComp";
+import SignupComp from "./SignupComp";
 
 export {
     Navbar,
@@ -16,4 +19,7 @@ export {
     NewsletterBox,
     Footer,
     HalfCard,
+    Card,
+    LoginComp,
+    SignupComp,
 };

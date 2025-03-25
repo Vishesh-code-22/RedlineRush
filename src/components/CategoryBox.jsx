@@ -1,8 +1,9 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const CategoryItem = ({ image, title, subtitle }) => {
     return (
-        <div>
+        <Link to={`/category/${title}`}>
             <div className="pb-3">
                 <img
                     src={image}
@@ -14,7 +15,7 @@ const CategoryItem = ({ image, title, subtitle }) => {
             {subtitle && (
                 <p className="text-gray-400 text-sm mt-1">{subtitle}</p>
             )}
-        </div>
+        </Link>
     );
 };
 
