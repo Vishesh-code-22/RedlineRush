@@ -3,9 +3,15 @@ import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
+    // Take status, role and userdata from store
+    // Conditionally show different navbars
+    const { status, role, userData } = useSelector((state) => state.auth);
+    console.log(userData?.name);
+
     const [isOpen, setIsOpen] = useState(false);
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
@@ -187,7 +193,7 @@ const Navbar = () => {
                         </div>
 
                         {/* Standard navigation items */}
-                        {!userState.isWriter && (
+                        {role !== "author" && (
                             <>
                                 <a
                                     href="#community"
@@ -217,7 +223,7 @@ const Navbar = () => {
                         )}
 
                         {/* Writer-specific navigation items */}
-                        {userState.isLoggedIn && userState.isWriter && (
+                        {status && role === "author" && (
                             <>
                                 <a
                                     href="#add-post"
@@ -241,7 +247,7 @@ const Navbar = () => {
                         )}
 
                         {/* Authentication */}
-                        {!userState.isLoggedIn ? (
+                        {!status ? (
                             <Link
                                 to={"/login"}
                                 className="ml-2 px-6 py-1 text-xl font-medium text-white bg-black rounded-md hover:bg-gray-800"
@@ -260,16 +266,14 @@ const Navbar = () => {
                                         Open user menu
                                     </span>
                                     <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                                        {userState.username
-                                            .charAt(0)
-                                            .toUpperCase()}
+                                        {userData.name.charAt(0).toUpperCase()}
                                     </div>
                                 </button>
 
                                 {profileDropdownOpen && (
                                     <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                                         <div className="py-1">
-                                            {!userState.isWriter ? (
+                                            {role !== "author" ? (
                                                 <>
                                                     <a
                                                         href="#history"

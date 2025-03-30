@@ -1,6 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import { login } from "../store/authSlice";
 
 const SignupComp = ({ writerSignup = false }) => {
     const {
@@ -12,13 +14,25 @@ const SignupComp = ({ writerSignup = false }) => {
     } = useForm({ mode: "onSubmit" });
 
     const [error, setError] = useState("");
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
     const signup = (data) => {
-        console.log(errors);
-        console.log(watch("password"));
-
         setError("");
         try {
             console.log(data);
+            // dispatch user data and role
+            // dispatch role conditionally
+            // navigate to home
+            dispatch(
+                login({
+                    userData: {
+                        name: data.name,
+                        email: data.email,
+                    },
+                    role: writerSignup ? "author" : "user",
+                })
+            );
+            navigate("/");
             reset();
         } catch (error) {
             setError(error.message);
