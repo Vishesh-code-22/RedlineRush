@@ -201,12 +201,12 @@ const Navbar = () => {
                                 >
                                     Gallery
                                 </a>
-                                <a
-                                    href="#write"
+                                <Link
+                                    to="/writer-signup"
                                     className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                 >
                                     Write
-                                </a>
+                                </Link>
                                 <Link
                                     to={"/about"}
                                     className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
@@ -400,12 +400,12 @@ const Navbar = () => {
                                 >
                                     Gallery
                                 </a>
-                                <a
-                                    href="#write"
+                                <Link
+                                    href="/writer-signup"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     Write
-                                </a>
+                                </Link>
                                 <Link
                                     to={"/about"}
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"

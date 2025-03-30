@@ -3,18 +3,27 @@ import { Link } from "react-router-dom";
 
 const CategoryItem = ({ image, title, subtitle }) => {
     return (
-        <Link to={`/category/${title}`}>
-            <div className="pb-3">
-                <img
-                    src={image}
-                    alt={title}
-                    className="w-full object-cover aspect-[4/3] rounded"
-                />
+        <Link
+            to={`/category/${title}`}
+            className="relative h-160 w-full rounded-2xl overflow-hidden"
+        >
+            <div className="relative w-full h-160 rounded-2xl overflow-hidden shadow-lg">
+                {/* Background Image with Hover Effect */}
+                <div className="absolute inset-0 w-full h-full transition-transform duration-300 hover:scale-110">
+                    <div
+                        className="w-full h-full bg-cover bg-center"
+                        style={{ backgroundImage: `url(${image})` }}
+                    />
+                    {/* Overlay */}
+                    <div className="absolute inset-0 bg-black/50"></div>
+                </div>
+
+                {/* Text Content - Stays Static */}
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-white pointer-events-none">
+                    <h3 className="text-4xl font-bold">{title}</h3>
+                    {subtitle && <p className="text-lg">{subtitle}</p>}
+                </div>
             </div>
-            <h3 className="text-xl font-bold">{title}</h3>
-            {subtitle && (
-                <p className="text-gray-400 text-sm mt-1">{subtitle}</p>
-            )}
         </Link>
     );
 };
@@ -44,17 +53,13 @@ const CategoryBox = () => {
     ];
 
     return (
-        <div className="w-full font-jura px-8 pb-6">
-            <div className="mb-6">
-                <h2 className="text-6xl font-semibold tracking-wider font-jura">
-                    Categories
-                </h2>
-                <p className="text-2xl font-semibold text-gray-400">
-                    Explore everything
-                </p>
+        <div className="flex flex-col w-full">
+            <div className="title-container">
+                <h2 className="title-main">Categories</h2>
+                <p className="subtitle-main">Explore everything</p>
             </div>
 
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-6 gap-y-12">
+            <div className="flex w-full gap-4">
                 {categories.map((item, index) => (
                     <CategoryItem
                         key={index}

@@ -1,15 +1,15 @@
 import React from "react";
-import { SignupComp } from "../components";
+import { LoginComp } from "../components";
 
-const Signup = () => {
+const WriterLogin = () => {
     return (
         <div
             className="flex w-full justify-center items-center"
             style={{ minHeight: "calc(100vh - 170px)" }}
         >
-            <SignupComp />
+            <LoginComp writerlogin={true} />
         </div>
     );
 };
 
-export default Signup;
+export default WriterLogin;

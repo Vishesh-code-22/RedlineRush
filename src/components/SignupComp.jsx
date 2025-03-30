@@ -1,7 +1,8 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
+import { Link } from "react-router-dom";
 
-const SignupComp = () => {
+const SignupComp = ({ writerSignup = false }) => {
     const {
         register,
         handleSubmit,
@@ -38,9 +39,18 @@ const SignupComp = () => {
                     alt="Logo"
                     className="h-12 mb-4"
                 />
-                <h3 className="text-2xl font-bold mb-2">Welcome back</h3>
+                <h3 className="text-2xl font-bold mb-2">
+                    {writerSignup ? (
+                        <>
+                            Join us as an{" "}
+                            <strong className="text-blue-500">Author</strong>
+                        </>
+                    ) : (
+                        "Welcome back"
+                    )}
+                </h3>
                 <p className="text-gray-500 text-sm">
-                    Please enter your details to sign in.
+                    Please enter your details to sign up.
                 </p>
             </div>
 
@@ -167,11 +177,28 @@ const SignupComp = () => {
                 {/* Sign In Button */}
                 <button
                     type="submit"
-                    className="w-full p-3 bg-black text-white rounded-lg hover:bg-gray-800 transition cursor-pointer"
+                    className={`w-full p-3 ${
+                        writerSignup ? "bg-blue-500" : "bg-gray-900"
+                    } text-white rounded-lg ${
+                        writerSignup ? "hover:bg-blue-900" : "hover:bg-gray-600"
+                    } transition cursor-pointer`}
                 >
-                    Sign up
+                    {writerSignup ? "Sign up as author" : "Sign up"}
                 </button>
             </form>
+            <p className="text-sm mt-4 text-gray-500">
+                {writerSignup ? "Already a member? " : ""}
+                {writerSignup ? (
+                    <Link
+                        to={"/writer-login"}
+                        className="text-blue-500 font-medium hover:underline"
+                    >
+                        Log in as author
+                    </Link>
+                ) : (
+                    ""
+                )}
+            </p>
         </div>
     );
 };

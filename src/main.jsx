@@ -3,14 +3,18 @@ import { createRoot } from "react-dom/client";
 import { createBrowserRouter, RouterProvider } from "react-router-dom";
 import "./index.css";
 import App from "./App.jsx";
-import Home from "./pages/Home.jsx";
-import Blog from "./pages/Blog.jsx";
+import {
+    Home,
+    Blog,
+    Category,
+    Login,
+    Signup,
+    About,
+    WriterSignup,
+    WriterLogin,
+} from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
-import Category from "./pages/Category.jsx";
-import Login from "./pages/Login.jsx";
-import Signup from "./pages/Signup.jsx";
-import About from "./pages/About.jsx";
 
 const router = createBrowserRouter([
     {
@@ -40,6 +44,14 @@ const router = createBrowserRouter([
             {
                 path: "/about",
                 element: <About />,
+            },
+            {
+                path: "/writer-signup",
+                element: <WriterSignup />,
+            },
+            {
+                path: "/writer-login",
+                element: <WriterLogin />,
             },
         ],
     },

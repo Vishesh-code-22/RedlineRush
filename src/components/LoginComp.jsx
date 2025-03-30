@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 
-const LoginComp = () => {
+const LoginComp = ({ writerlogin = false }) => {
     const {
         register,
         handleSubmit,
@@ -32,7 +32,16 @@ const LoginComp = () => {
                     alt="Logo"
                     className="h-12 mb-4"
                 />
-                <h3 className="text-2xl font-bold mb-2">Welcome back</h3>
+                <h3 className="text-2xl font-bold mb-2">
+                    {writerlogin ? (
+                        <>
+                            Welcome back{" "}
+                            <strong className="text-blue-500">Author</strong>
+                        </>
+                    ) : (
+                        "Welcome back"
+                    )}
+                </h3>
                 <p className="text-gray-500 text-sm">
                     Please enter your details to sign in.
                 </p>
@@ -131,7 +140,11 @@ const LoginComp = () => {
                 {/* Sign In Button */}
                 <button
                     type="submit"
-                    className="w-full p-3 bg-black text-white rounded-lg hover:bg-gray-800 transition cursor-pointer"
+                    className={`w-full p-3 ${
+                        writerlogin ? "bg-blue-500" : "bg-gray-900"
+                    } text-white rounded-lg ${
+                        writerlogin ? "hover:bg-blue-900" : "hover:bg-gray-600"
+                    } transition cursor-pointer`}
                 >
                     Sign in
                 </button>
@@ -141,7 +154,7 @@ const LoginComp = () => {
             <p className="text-sm mt-4 text-gray-500">
                 Don't have an account yet?{" "}
                 <Link
-                    to={"/signup"}
+                    to={writerlogin ? "/writer-signup" : "/signup"}
                     className="text-blue-500 font-medium hover:underline"
                 >
                     Sign Up

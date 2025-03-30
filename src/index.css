@@ -18,3 +18,27 @@
 @theme {
     --font-jura: "Jura", sans-serif;
 }
+
+.title-container {
+    @apply flex flex-col gap-2 items-center my-12;
+}
+
+.title-main {
+    @apply text-6xl font-semibold;
+}
+
+.subtitle-main {
+    @apply text-2xl font-medium;
+}
+
+.swiper-pagination-bullet {
+    background-color: white !important;
+}
+
+.swiper-button-prev {
+    color: white !important;
+}
+
+.swiper-button-next {
+    color: white !important;
+}

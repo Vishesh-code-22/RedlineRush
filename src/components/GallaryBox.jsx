@@ -5,46 +5,65 @@ const GallaryBox = () => {
         {
             owner: "@theanurags",
             src: "/images/gt650.jpg",
+            size: "col-span-2 row-span-2",
         },
         {
             owner: "@fronxcarclub",
             src: "/images/fronx.jpg",
+            size: "row-span-1",
         },
         {
             owner: "@al_evox87",
             src: "/images/civic.jpg",
+            size: "col-span-1 row-span-2",
         },
         {
             owner: "@doc_with_helmet",
             src: "/images/bmw.jpg",
+            size: "row-span-1",
         },
         {
             owner: "@tinydanzarides",
             src: "/images/scrambler.jpg",
+            size: "col-span-1",
         },
         {
             owner: "@mercedesbenzgclass",
             src: "/images/gwagon.jpg",
+            size: "col-span-2 row-span-1",
+        },
+        {
+            owner: "@hondaracingindia",
+            src: "/images/honda.jpg",
+            size: "col-span-1",
         },
     ];
+
     return (
-        <div className="flex flex-col w-full font-jura relative mb-0">
-            <div className="relative w-full pb-2 z-10 text-center">
-                <h2 className="text-6xl font-semibold tracking-wider text-black pb-2">
-                    Gallary
-                </h2>
-                <p className="text-2xl font-semibold text-gray-400 mb-6">
-                    Check out our gallary
-                </p>
+        <div className="w-full flex flex-col items-center py-10">
+            {/* Title Section */}
+            <div className="title-container">
+                <h2 className="title-main">Gallery</h2>
+                <p className="subtitle-main">Check out our gallery</p>
             </div>
-            <div className="grid grid-cols-2 w-full">
+
+            {/* Bento Grid Layout - No Empty Spaces */}
+            <div className="grid grid-cols-3 md:grid-cols-4 gap-4 w-full max-w-screen-xl px-4 auto-rows-[200px] md:auto-rows-[250px] lg:auto-rows-[300px] grid-auto-flow-dense">
                 {images.map((image, index) => (
-                    <div key={index} className="overflow-hidden shadow-lg">
+                    <div
+                        key={index}
+                        className={`relative overflow-hidden group ${image.size}`}
+                    >
+                        {/* Image with Scale Hover */}
                         <img
                             src={image.src}
                             alt={image.owner}
-                            className="w-full object-cover transition-transform duration-300 hover:scale-110"
+                            className="w-full h-full object-cover transition-transform duration-300 group-hover:scale-105"
                         />
+                        {/* Overlay for Owner Name */}
+                        <div className="absolute bottom-0 left-0 w-full bg-black/60 text-white text-center p-2 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                            {image.owner}
+                        </div>
                     </div>
                 ))}
             </div>
