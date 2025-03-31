@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { useForm } from "react-hook-form";
-import { Link } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import { Link, useNavigate } from "react-router-dom";
+import authService from "../appwrite/authService";
+import { login } from "../store/authSlice";
 
 const LoginComp = ({ writerlogin = false }) => {
     const {
@@ -10,10 +13,20 @@ const LoginComp = ({ writerlogin = false }) => {
         formState: { errors },
     } = useForm();
     const [error, setError] = useState("");
-    const login = (data) => {
+    const dispatch = useDispatch();
+    const navigate = useNavigate();
+    const signin = async (data) => {
         setError("");
         try {
             console.log(data);
+
+            const session = await authService.login(data);
+            if (session) {
+                const userInfo = await authService.getCurrentUser();
+                const role = await authService.getUserRole(userInfo.$id);
+                dispatch(login({ userData: userInfo, role: role }));
+            }
+            navigate("/");
             reset();
         } catch (error) {
             setError(error.message);
@@ -73,7 +86,7 @@ const LoginComp = ({ writerlogin = false }) => {
 
             {error && <p className="text-red-600 mt-8 text-center">{error}</p>}
 
-            <form onSubmit={handleSubmit(login)} className="w-full">
+            <form onSubmit={handleSubmit(signin)} className="w-full">
                 <div className="w-full mb-4">
                     <label className="text-sm font-medium">
                         E-Mail Address
