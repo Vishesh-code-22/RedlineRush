@@ -3,6 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
+import authService from "../appwrite/authService";
 
 const SignupComp = ({ writerSignup = false }) => {
     const {
@@ -16,22 +17,22 @@ const SignupComp = ({ writerSignup = false }) => {
     const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
-    const signup = (data) => {
+    const signup = async (data) => {
         setError("");
         try {
-            console.log(data);
-            // dispatch user data and role
-            // dispatch role conditionally
-            // navigate to home
-            dispatch(
-                login({
-                    userData: {
-                        name: data.name,
-                        email: data.email,
-                    },
-                    role: writerSignup ? "author" : "user",
-                })
-            );
+            const userData = {
+                name: data.name,
+                email: data.email,
+                password: data.password,
+                role: writerSignup ? "author" : "user",
+            };
+
+            const user = await authService.createAccount(userData);
+
+            if (user) {
+                const userInfo = await authService.getCurrentUser();
+                dispatch(login({ userData: userInfo, role: userData.role }));
+            }
             navigate("/");
             reset();
         } catch (error) {
