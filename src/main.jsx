@@ -15,6 +15,9 @@ import {
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
+import AddBlog from "./pages/AddBlog.jsx";
+import EditBlog from "./pages/EditBlog.jsx";
+import DeleteBlog from "./pages/DeleteBlog.jsx";
 
 const router = createBrowserRouter([
     {
@@ -52,6 +55,18 @@ const router = createBrowserRouter([
             {
                 path: "/writer-login",
                 element: <WriterLogin />,
+            },
+            {
+                path: "/add-blog",
+                element: <AddBlog />,
+            },
+            {
+                path: "/edit-blog/",
+                element: <EditBlog />,
+            },
+            {
+                path: "/delete-blog",
+                element: <DeleteBlog />,
             },
         ],
     },

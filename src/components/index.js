@@ -9,6 +9,7 @@ import HalfCard from "./HalfCard";
 import Card from "./Card";
 import LoginComp from "./LoginComp";
 import SignupComp from "./SignupComp";
+import BlogForm from "./BlogForm";
 
 export {
     Navbar,
@@ -22,4 +23,5 @@ export {
     Card,
     LoginComp,
     SignupComp,
+    BlogForm,
 };
