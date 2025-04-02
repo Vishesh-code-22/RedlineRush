@@ -15,7 +15,9 @@ const LoginComp = ({ writerlogin = false }) => {
     const [error, setError] = useState("");
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const [loading, setLoading] = useState(false);
     const signin = async (data) => {
+        setLoading(true);
         setError("");
         try {
             console.log(data);
@@ -24,19 +26,40 @@ const LoginComp = ({ writerlogin = false }) => {
             if (session) {
                 const userInfo = await authService.getCurrentUser();
                 const role = await authService.getUserRole(userInfo.$id);
+
+                // Check if the user has the correct role for this login page
+                if (writerlogin && role !== "author") {
+                    setError(
+                        "This login page is for authors only. Please use the regular login page."
+                    );
+                    await authService.logout();
+                    setLoading(false); // Log them out since they used the wrong page
+                    return;
+                } else if (!writerlogin && role === "author") {
+                    setError(
+                        "Authors should use the author login page. Please use the author login page."
+                    );
+                    await authService.logout();
+                    setLoading(false); // Log them out since they used the wrong page
+                    return;
+                }
+
+                // If role is correct, proceed with login
                 dispatch(login({ userData: userInfo, role: role }));
+                navigate("/");
+                reset();
             }
-            navigate("/");
-            reset();
+            setLoading(false);
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
     };
 
     // State for toggling password visibility
     const [showPassword, setShowPassword] = useState(false);
 
-    return (
+    return !loading ? (
         <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg w-[30%] font-jura">
             {/* Logo and Heading */}
             <div className="flex flex-col items-center mb-6">
@@ -173,6 +196,10 @@ const LoginComp = ({ writerlogin = false }) => {
                     Sign Up
                 </Link>
             </p>
+        </div>
+    ) : (
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin caret-transparent"></div>
         </div>
     );
 };

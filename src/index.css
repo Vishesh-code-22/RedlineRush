@@ -31,6 +31,10 @@
     @apply text-2xl font-medium;
 }
 
+.full-shadow {
+    box-shadow: rgba(99, 99, 99, 0.2) 0px 2px 8px 0px;
+}
+
 .swiper-pagination-bullet {
     background-color: white !important;
 }

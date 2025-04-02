@@ -52,7 +52,7 @@ const Navbar = () => {
     }, []);
 
     return (
-        <nav className="bg-white shadow-sm sticky top-0 z-20">
+        <nav className="bg-white shadow-sm sticky top-0 z-20 font-jura">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-6">
                 <div
                     className="height-div flex justify-between h-22"
@@ -206,24 +206,24 @@ const Navbar = () => {
                             {/* Writer-specific navigation items */}
                             {status && role === "author" && (
                                 <>
-                                    <a
-                                        href="#add-post"
+                                    <Link
+                                        to="/add-blog"
                                         className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                     >
                                         Add Post
-                                    </a>
-                                    <a
-                                        href="#update-post"
+                                    </Link>
+                                    <Link
+                                        to="/edit-blog"
                                         className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                     >
                                         Update Post
-                                    </a>
-                                    <a
-                                        href="#delete-post"
+                                    </Link>
+                                    <Link
+                                        to="/delete-blog"
                                         className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                     >
                                         Delete Post
-                                    </a>
+                                    </Link>
                                 </>
                             )}
 
@@ -403,24 +403,24 @@ const Navbar = () => {
 
                         {status && role === "author" && (
                             <>
-                                <a
-                                    href="#add-post"
+                                <Link
+                                    to="/add-blog"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     Add Post
-                                </a>
-                                <a
-                                    href="#update-post"
+                                </Link>
+                                <Link
+                                    to="/edit-blog"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     Update Post
-                                </a>
-                                <a
-                                    href="#delete-post"
+                                </Link>
+                                <Link
+                                    to="/delete-blog"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     Delete Post
-                                </a>
+                                </Link>
                             </>
                         )}
 
