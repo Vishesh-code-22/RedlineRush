@@ -2,13 +2,14 @@ import React from "react";
 import { useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { Card } from "../components";
+import dataService from "../appwrite/dataService";
 
 const Category = () => {
     const { category } = useParams();
     // filter blogs based on category
     const blogData = useSelector((state) => state.blog.blogData);
+
     const filteredBlogs = blogData.filter((blog) => blog.category === category);
-    console.log(filteredBlogs);
 
     return (
         <div
@@ -21,11 +22,13 @@ const Category = () => {
             <div className="grid grid-cols-4 gap-8 w-full">
                 {filteredBlogs.map((blog) => (
                     <Card
-                        id={blog.id}
-                        key={blog.id}
-                        image={blog.image}
+                        id={blog.$id}
+                        key={blog.$id}
+                        image={dataService.getArticleImagePreview(
+                            blog.featuredImage
+                        )}
                         title={blog.title}
-                        content={blog.description}
+                        content={blog.content}
                     />
                 ))}
             </div>

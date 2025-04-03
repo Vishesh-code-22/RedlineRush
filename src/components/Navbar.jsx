@@ -2,7 +2,7 @@ import React, { useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import authService from "../appwrite/authService";
 import { logout } from "../store/authSlice";
@@ -12,7 +12,7 @@ const Navbar = () => {
     // Take status, role and userdata from store
     // Conditionally show different navbars
     const { status, role, userData } = useSelector((state) => state.auth);
-    console.log(status);
+    const navigate = useNavigate();
 
     const dispatch = useDispatch();
 
@@ -28,6 +28,7 @@ const Navbar = () => {
     const handleLogout = () => {
         authService.logout().then(() => {
             dispatch(logout());
+            navigate("/");
         });
     };
 

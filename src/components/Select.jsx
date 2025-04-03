@@ -1,13 +1,9 @@
 import React, { useId } from "react";
 
-const Select = ({
-    options,
-    label,
-    className,
-    labelClassName,
-    selectClassName,
-    ...props
-}) => {
+const Select = (
+    { options, label, className, labelClassName, selectClassName, ...props },
+    ref
+) => {
     const id = useId();
     return (
         <div className={`flex flex-col w-full ${className || ""}`}>
@@ -24,6 +20,7 @@ const Select = ({
             <select
                 {...props}
                 id={id}
+                ref={ref}
                 className={`px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white bg-no-repeat cursor-pointer ${
                     selectClassName || ""
                 }`}
@@ -45,4 +42,4 @@ const Select = ({
     );
 };
 
-export default Select;
+export default React.forwardRef(Select);

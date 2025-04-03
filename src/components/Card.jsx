@@ -1,9 +1,9 @@
 import React from "react";
 import { Link } from "react-router-dom";
-
 const Card = ({ id, image, title, content }) => {
-    console.log(content);
-
+    const plainTextPreview = content
+        .replace(/<[^>]*>/g, "") // Strip HTML tags
+        .substring(0, 200); // Truncate
     return (
         <Link
             to={`/blog/${id}`}
@@ -18,7 +18,9 @@ const Card = ({ id, image, title, content }) => {
                 {title}
             </h3>
             <p className="content font-medium text-gray-500 pb-4">
-                {content.substring(0, 200) + "..."}
+                {plainTextPreview.length >= 200
+                    ? plainTextPreview + "..."
+                    : plainTextPreview}
             </p>
         </Link>
     );

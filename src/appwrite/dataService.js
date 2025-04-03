@@ -125,10 +125,7 @@ export class DataService {
     }
 
     getArticleImagePreview(imageId) {
-        return this.storage.getFilePreview(
-            conf.appwriteArticleBucketId,
-            imageId
-        );
+        return this.storage.getFileView(conf.appwriteArticleBucketId, imageId);
     }
 
     async uploadUserImage(file) {

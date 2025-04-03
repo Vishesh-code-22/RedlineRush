@@ -111,7 +111,12 @@ const blogSlice = createSlice({
     initialState,
     reducers: {
         addBlog: (state, action) => {
-            state.blogData.push(action.payload);
+            const exists = state.blogData.some(
+                (blog) => blog.$id === action.payload.$id
+            );
+            if (!exists) {
+                state.blogData.push(action.payload);
+            }
         },
         editBlog: (state, action) => {
             state.blogData = state.blogData.map((blog) => {
