@@ -1,6 +1,9 @@
 import React from "react";
 
-const HomeCard = ({ title, image, description, category }) => {
+const HomeCard = ({ title, image, content, category }) => {
+    const plainTextPreview = content
+        .replace(/<[^>]*>/g, "") // Strip HTML tags
+        .substring(0, 200); // Truncate
     return (
         <div className="relative w-full h-160 shadow-lg">
             <div
@@ -24,7 +27,9 @@ const HomeCard = ({ title, image, description, category }) => {
                         className="text-lg mt-1 w-1/2"
                         data-swiper-parallax="-500"
                     >
-                        {description.substring(0, 200) + "..."}
+                        {plainTextPreview.length >= 200
+                            ? plainTextPreview + "..."
+                            : plainTextPreview}
                     </p>
                 </div>
             </div>

@@ -1,13 +1,54 @@
-import React from "react";
+import React, { useCallback, useEffect } from "react";
 import RTE from "./RTE";
 import Select from "./Select";
 import { useForm } from "react-hook-form";
+import dataService from "../appwrite/dataService";
+import { useSelector, useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import { addBlog } from "../store/blogSlice";
 
 const BlogForm = () => {
-    const { register, handleSubmit, control, getValues } = useForm();
-    const submitBlog = (data) => {
-        console.log(data);
+    const { register, handleSubmit, control, getValues, watch, setValue } =
+        useForm();
+    const userData = useSelector((state) => state.auth.userData);
+    const navigate = useNavigate();
+    const dispatch = useDispatch();
+    const submitBlog = async (data) => {
+        const file = await dataService.uploadArticleImage(data.image[0]);
+        if (file) {
+            data.featuredImage = file.$id;
+            data.userId = userData.$id;
+            const post = await dataService.createPost(data);
+            if (post) {
+                dispatch(addBlog(post));
+                navigate(`/blog/${post.$id}`);
+            }
+        }
     };
+
+    const slugTransform = useCallback((value) => {
+        if (value && typeof value === "string")
+            return value
+                .trim()
+                .toLowerCase()
+                .replace(/[^a-zA-Z\d\s]+/g, "-")
+                .replace(/\s/g, "-");
+
+        return "";
+    }, []);
+
+    useEffect(() => {
+        const subscription = watch((value, { name }) => {
+            if (name === "title") {
+                setValue("slug", slugTransform(value.title), {
+                    shouldValidate: true,
+                });
+            }
+        });
+
+        return () => subscription.unsubscribe();
+    }, [watch, slugTransform, setValue]);
+
     return (
         <form
             onSubmit={handleSubmit(submitBlog)}
@@ -39,6 +80,7 @@ const BlogForm = () => {
                     <input
                         type="text"
                         id="slug"
+                        readOnly
                         placeholder="enter-slug-here"
                         className="px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                         {...register("slug", { required: true })}
@@ -74,7 +116,14 @@ const BlogForm = () => {
                 </div>
                 <Select
                     label="Category"
-                    options={["Experience", "Travel", "Music", "Food"]}
+                    options={[
+                        "Reviews",
+                        "Guides",
+                        "Stories",
+                        "Travel",
+                        "Comparos",
+                        "Experience",
+                    ]}
                     className="w-full"
                     labelClassName="text-sm font-medium text-gray-700 mb-2"
                     selectClassName="px-4 py-2 w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"

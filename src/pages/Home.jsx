@@ -16,10 +16,16 @@ import "swiper/css/navigation";
 import "swiper/css/autoplay";
 
 import { Pagination, Navigation } from "swiper/modules";
+import dataService from "../appwrite/dataService";
 
 const Home = () => {
     const blogData = useSelector((state) => state.blog.blogData);
-    return (
+
+    return !blogData || blogData.length === 0 ? (
+        <div className="flex items-center justify-center min-h-screen">
+            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+    ) : (
         <div className="flex flex-col w-full font-jura px-16 gap-12">
             <div className="flex w-full flex-col">
                 <div className="title-container">
@@ -45,12 +51,14 @@ const Home = () => {
                     loop={true}
                 >
                     {blogData.map((blog) => (
-                        <SwiperSlide key={blog.id}>
-                            <Link to={`/blog/${blog.id}`} className="block">
+                        <SwiperSlide key={blog.$id}>
+                            <Link to={`/blog/${blog.$id}`} className="block">
                                 <HomeCard
                                     title={blog.title}
-                                    image={blog.image}
-                                    description={blog.description}
+                                    image={dataService.getArticleImagePreview(
+                                        blog.featuredImage
+                                    )}
+                                    content={blog.content}
                                     category={blog.category}
                                 />
                             </Link>

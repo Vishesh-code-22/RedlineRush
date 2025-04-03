@@ -20,8 +20,6 @@ const LoginComp = ({ writerlogin = false }) => {
         setLoading(true);
         setError("");
         try {
-            console.log(data);
-
             const session = await authService.login(data);
             if (session) {
                 const userInfo = await authService.getCurrentUser();
