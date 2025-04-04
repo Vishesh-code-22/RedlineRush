@@ -1,4 +1,4 @@
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 import { Footer, Navbar } from "./components";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,49 +10,48 @@ import { addBlog } from "./store/blogSlice";
 function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    const blogData = useSelector((state) => state.blog.blogData);
-    const status = useSelector((state) => state.auth.status);
+    
+    // Handle authentication state
     useEffect(() => {
-        setLoading(true);
-        if (status) {
-            authService
-                .getCurrentUser()
-                .then((userData) => {
-                    if (userData) {
-                        authService.getUserRole(userData.$id).then((role) => {
-                            dispatch(login({ userData, role }));
-                            setLoading(false);
-                        });
-                    } else {
-                        dispatch(logout());
-                        setLoading(false);
-                    }
-                })
-                .catch((error) => {
-                    console.error(error);
+        const checkAuth = async () => {
+            try {
+                const userData = await authService.getCurrentUser();
+                if (userData) {
+                    const role = await authService.getUserRole(userData.$id);
+                    dispatch(login({ userData, role }));
+                } else {
                     dispatch(logout());
-                    setLoading(false);
-                })
-                .finally(() => setLoading(false));
-        } else {
-            dispatch(logout());
-            setLoading(false);
-        }
+                }
+            } catch (error) {
+                console.error("Auth error:", error);
+                dispatch(logout());
+            } finally {
+                setLoading(false);
+                // Reset scroll position to top after auth is loaded
+                window.scrollTo(0, 0);
+            }
+        };
 
-        dataService
-            .getPosts()
-            .then((posts) => {
+        checkAuth();
+    }, [dispatch]);
+
+    // Fetch blog posts separately from auth
+    useEffect(() => {
+        const fetchPosts = async () => {
+            try {
+                const posts = await dataService.getPosts();
                 if (posts) {
                     posts.documents.forEach((post) => {
                         dispatch(addBlog(post));
                     });
                 }
-            })
-            .catch((error) => {
-                console.error(error);
-            })
-            .finally(() => setLoading(false));
-    }, [dispatch, blogData]);
+            } catch (error) {
+                console.error("Blog fetch error:", error);
+            }
+        };
+
+        fetchPosts();
+    }, [dispatch]);
 
     return !loading ? (
         <>
