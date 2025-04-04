@@ -1,12 +1,12 @@
 import React from "react";
 import { Link } from "react-router-dom";
-const Card = ({ id, image, title, content }) => {
+const Card = ({ id, image, title, content, edit = false }) => {
     const plainTextPreview = content
         .replace(/<[^>]*>/g, "") // Strip HTML tags
         .substring(0, 200); // Truncate
     return (
         <Link
-            to={`/blog/${id}`}
+            to={edit ? `/edit-this-blog/${id}` : `/blog/${id}`}
             className="flex flex-col hover:shadow-2xl duration-300 transition-all ease-in-out rounded hover:scale-101"
         >
             <img

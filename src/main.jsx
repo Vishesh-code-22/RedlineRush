@@ -12,6 +12,7 @@ import {
     About,
     WriterSignup,
     WriterLogin,
+    EditThisBlog,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -67,6 +68,10 @@ const router = createBrowserRouter([
             {
                 path: "/delete-blog",
                 element: <DeleteBlog />,
+            },
+            {
+                path: "/edit-this-blog/:id",
+                element: <EditThisBlog />,
             },
         ],
     },
