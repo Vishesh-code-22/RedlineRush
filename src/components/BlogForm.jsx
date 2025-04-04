@@ -7,9 +7,18 @@ import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addBlog } from "../store/blogSlice";
 
-const BlogForm = () => {
+const BlogForm = ({ post, image }) => {
     const { register, handleSubmit, control, getValues, watch, setValue } =
-        useForm();
+        useForm({
+            defaultValues: {
+                title: post?.title || "",
+                slug: post?.slug || "",
+                content: post?.content || "",
+                status: post?.status || "active",
+                category: post?.category || "",
+                image: image || "",
+            },
+        });
     const userData = useSelector((state) => state.auth.userData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
@@ -52,6 +61,12 @@ const BlogForm = () => {
                 .replace(/\s/g, "-");
 
         return "";
+    }, []);
+
+    useEffect(() => {
+        if (post) {
+            console.log(getValues());
+        }
     }, []);
 
     useEffect(() => {
@@ -107,7 +122,7 @@ const BlogForm = () => {
                     label="Content"
                     name="content"
                     control={control}
-                    getValues={getValues("content")}
+                    defaultValue={getValues("content")}
                     className="w-full "
                 />
             </div>
