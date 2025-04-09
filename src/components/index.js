@@ -10,6 +10,7 @@ import Card from "./Card";
 import LoginComp from "./LoginComp";
 import SignupComp from "./SignupComp";
 import BlogForm from "./BlogForm";
+import DeleteCard from "./DeleteCard";
 
 export {
     Navbar,
@@ -24,4 +25,5 @@ export {
     LoginComp,
     SignupComp,
     BlogForm,
+    DeleteCard,
 };

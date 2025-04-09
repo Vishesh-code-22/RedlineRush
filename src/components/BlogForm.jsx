@@ -15,7 +15,7 @@ const BlogForm = ({ post, image }) => {
                 slug: post?.slug || "",
                 content: post?.content || "",
                 status: post?.status || "active",
-                category: post?.category || "",
+                category: post?.category || "Reviews",
             },
         });
     const userData = useSelector((state) => state.auth.userData);

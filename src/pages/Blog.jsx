@@ -42,7 +42,7 @@ const Blog = () => {
         <div className="main flex flex-col w-full font-jura">
             <div className="main-content flex flex-col w-full gap-12 mt-8 px-32">
                 <div className="top flex flex-col w-full items-center">
-                    <h2 className="title text-6xl font-semibold tracking-wider pb-4">
+                    <h2 className="title text-6xl font-semibold tracking-wider text-center pb-4">
                         {blog.title}
                     </h2>
                     <div className="blog-meta flex gap-12 items-center w-1/2 justify-center">
