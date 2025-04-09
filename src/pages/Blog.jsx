@@ -9,7 +9,6 @@ const Blog = () => {
     const { id } = useParams();
     const blogData = useSelector((state) => state.blog.blogData);
     const user = useSelector((state) => state.auth.userData);
-    console.log(blogData);
 
     // Note: Any code here will execute BEFORE the Promise resolves
 
