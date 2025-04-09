@@ -120,7 +120,7 @@ const blogSlice = createSlice({
         },
         editBlog: (state, action) => {
             state.blogData = state.blogData.map((blog) => {
-                if (blog.id === action.payload.id) {
+                if (blog.$id === action.payload.id) {
                     return action.payload;
                 } else {
                     return blog;
@@ -129,7 +129,7 @@ const blogSlice = createSlice({
         },
         deleteBlog: (state, action) => {
             state.blogData = state.blogData.filter(
-                (blog) => blog.id !== action.payload.id
+                (blog) => blog.$id !== action.payload
             );
         },
     },
