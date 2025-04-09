@@ -42,12 +42,15 @@ export class DataService {
             throw error;
         }
     }
-    async editPost(slug, { title, content, featuredImage, status, category }) {
+    async editPost(
+        id,
+        { title, content, featuredImage, status, category, slug }
+    ) {
         try {
             return await this.databases.updateDocument(
                 conf.appwriteDatabaseId,
                 conf.appwriteArticleCollectionId,
-                ID.unique(),
+                id,
                 {
                     title,
                     content,

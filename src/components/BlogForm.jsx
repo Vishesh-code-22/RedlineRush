@@ -5,7 +5,7 @@ import { useForm } from "react-hook-form";
 import dataService from "../appwrite/dataService";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
-import { addBlog } from "../store/blogSlice";
+import { addBlog, editBlog } from "../store/blogSlice";
 
 const BlogForm = ({ post, image }) => {
     const { register, handleSubmit, control, getValues, watch, setValue } =
@@ -16,22 +16,37 @@ const BlogForm = ({ post, image }) => {
                 content: post?.content || "",
                 status: post?.status || "active",
                 category: post?.category || "",
-                image: image || "",
             },
         });
     const userData = useSelector((state) => state.auth.userData);
     const navigate = useNavigate();
     const dispatch = useDispatch();
-    const [previewURL, setPreviewURL] = useState("");
+    const [previewURL, setPreviewURL] = useState(image ? image : "");
     const submitBlog = async (data) => {
-        const file = await dataService.uploadArticleImage(data.image[0]);
-        if (file) {
+        if (post) {
+            const file = data.image[0]
+                ? await dataService.uploadArticleImage(data.image[0])
+                : null;
+
+            if (file) {
+                await dataService.deleteArticleImage(post.featuredImage);
+            }
             data.featuredImage = file.$id;
-            data.userId = userData.$id;
-            const post = await dataService.createPost(data);
-            if (post) {
-                dispatch(addBlog(post));
+            const updatedPost = await dataService.editPost(post.$id, data);
+            if (updatedPost) {
+                dispatch(editBlog(updatedPost));
                 navigate(`/blog/${post.$id}`);
+            }
+        } else {
+            const file = await dataService.uploadArticleImage(data.image[0]);
+            if (file) {
+                data.featuredImage = file.$id;
+                data.userId = userData.$id;
+                const post = await dataService.createPost(data);
+                if (post) {
+                    dispatch(addBlog(post));
+                    navigate(`/blog/${post.$id}`);
+                }
             }
         }
     };
@@ -61,12 +76,6 @@ const BlogForm = ({ post, image }) => {
                 .replace(/\s/g, "-");
 
         return "";
-    }, []);
-
-    useEffect(() => {
-        if (post) {
-            console.log(getValues());
-        }
     }, []);
 
     useEffect(() => {
@@ -150,7 +159,7 @@ const BlogForm = ({ post, image }) => {
                                 <img
                                     src={previewURL}
                                     alt="Preview"
-                                    className="w-full h-84 object-cover mt-4"
+                                    className="w-full h-84 object-cover mt-4 rounded-lg"
                                 />
                             )}
                         </div>
