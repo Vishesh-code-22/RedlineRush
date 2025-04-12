@@ -4,6 +4,7 @@ import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
 import authService from "../appwrite/authService";
+import { setIsLoading, setShowNav } from "../store/utilitySlice";
 
 const SignupComp = ({ writerSignup = false }) => {
     const {
@@ -19,6 +20,8 @@ const SignupComp = ({ writerSignup = false }) => {
     const navigate = useNavigate();
     const signup = async (data) => {
         setError("");
+        dispatch(setIsLoading(true));
+        dispatch(setShowNav(false));
         try {
             const userData = {
                 name: data.name,
@@ -31,9 +34,13 @@ const SignupComp = ({ writerSignup = false }) => {
 
             if (user) {
                 const userInfo = await authService.getCurrentUser();
+                // Take user photo and dispatch WITH it, Required
                 dispatch(login({ userData: userInfo, role: userData.role }));
+                console.log(userInfo.$id);
+                dispatch(setIsLoading(false));
+                navigate(`/add-avatar/${userInfo.$id}`);
             }
-            navigate("/");
+            // navigate("/");
             reset();
         } catch (error) {
             setError(error.message);

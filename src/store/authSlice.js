@@ -4,6 +4,7 @@ const initialState = {
     status: null,
     userData: null,
     role: null,
+    avatar: null,
 };
 
 const authSlice = createSlice({
@@ -20,9 +21,12 @@ const authSlice = createSlice({
             state.userData = null;
             state.role = null;
         },
+        addAvatar(state, action) {
+            state.avatar = action.payload;
+        },
     },
 });
 
-export const { login, logout } = authSlice.actions;
+export const { login, logout, addAvatar } = authSlice.actions;
 
 export default authSlice.reducer;

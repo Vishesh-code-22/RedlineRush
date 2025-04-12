@@ -3,24 +3,30 @@ import { useDispatch, useSelector } from "react-redux";
 import { Card, DeleteCard } from "../components";
 import { deleteBlog } from "../store/blogSlice";
 import dataService from "../appwrite/dataService";
+import { setIsLoading } from "../store/utilitySlice";
 const DeleteBlog = () => {
     const userId = useSelector((state) => state.auth.userData.$id);
     const blogData = useSelector((state) => state.blog.blogData);
-    const filteredBlogs = blogData.filter((blog) => blog.userId === userId);
     const dispatch = useDispatch();
+    const filteredBlogs = blogData.filter((blog) => blog.userId === userId);
     const [popupOpen, setPopupOpen] = useState(false);
     const [selectedTitle, setSelectedTitle] = useState(null);
     const [deleteId, setDeleteId] = useState(null);
+    const [deleteImage, setDeleteImage] = useState(null);
     const handleDelete = (id) => {
         setPopupOpen(true);
         setDeleteId(id);
+        setDeleteImage(blogData.find((blog) => blog.$id === id).featuredImage);
         setSelectedTitle(blogData.find((blog) => blog.$id === id).title);
     };
 
     const confirmDelete = async () => {
         setPopupOpen(false);
+        dispatch(setIsLoading(true));
         await dataService.deletePost(deleteId);
+        await dataService.deleteArticleImage(deleteImage);
         dispatch(deleteBlog(deleteId));
+        dispatch(setIsLoading(false));
         console.log("blog data", blogData);
     };
     console.log("filteredBlogs", filteredBlogs);

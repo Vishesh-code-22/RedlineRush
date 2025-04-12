@@ -8,7 +8,8 @@ import parse from "html-react-parser";
 const Blog = () => {
     const { id } = useParams();
     const blogData = useSelector((state) => state.blog.blogData);
-    const user = useSelector((state) => state.auth.userData);
+    // const user = useSelector((state) => state.auth.userData);
+    console.log("inside blog", blogData);
 
     // Note: Any code here will execute BEFORE the Promise resolves
 
@@ -53,7 +54,7 @@ const Blog = () => {
                                 className="user-photo h-12 w-12 rounded-full object-cover"
                             />
                             <span className="user-name font-bold">
-                                {user?.name}
+                                {blog.userName}
                             </span>
                         </div>
                         <span className="date font-bold text-gray-400">

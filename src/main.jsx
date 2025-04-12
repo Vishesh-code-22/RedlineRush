@@ -13,6 +13,7 @@ import {
     WriterSignup,
     WriterLogin,
     EditThisBlog,
+    AddAvatar,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -72,6 +73,10 @@ const router = createBrowserRouter([
             {
                 path: "/edit-this-blog/:id",
                 element: <EditThisBlog />,
+            },
+            {
+                path: "/add-avatar/:id",
+                element: <AddAvatar />,
             },
         ],
     },

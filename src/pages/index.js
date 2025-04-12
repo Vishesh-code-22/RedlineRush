@@ -7,6 +7,7 @@ import About from "./About.jsx";
 import WriterSignup from "./WriterSignup.jsx";
 import WriterLogin from "./WriterLogin.jsx";
 import EditThisBlog from "./EditThisBlog.jsx";
+import AddAvatar from "./AddAvatar.jsx";
 
 export {
     Home,
@@ -18,4 +19,5 @@ export {
     WriterSignup,
     WriterLogin,
     EditThisBlog,
+    AddAvatar,
 };

@@ -1,4 +1,4 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import gsap from "gsap";
 import { useGSAP } from "@gsap/react";
 import { ScrollTrigger } from "gsap/all";
@@ -6,12 +6,14 @@ import { Link, useNavigate } from "react-router-dom";
 import { useDispatch, useSelector } from "react-redux";
 import authService from "../appwrite/authService";
 import { logout } from "../store/authSlice";
+import { setIsLoading } from "../store/utilitySlice";
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
     // Take status, role and userdata from store
     // Conditionally show different navbars
     const { status, role, userData } = useSelector((state) => state.auth);
+    const { showNav } = useSelector((state) => state.utility);
     const navigate = useNavigate();
 
     const dispatch = useDispatch();
@@ -20,17 +22,50 @@ const Navbar = () => {
     const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
     const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
     const scrollRef = useRef();
+    const categoryDropdownRef = useRef(null);
+    const profileDropdownRef = useRef(null);
 
     const toggleDropdown = (setter) => {
+        if (setter === setCategoryDropdownOpen) {
+            setProfileDropdownOpen(false);
+        } else if (setter === setProfileDropdownOpen) {
+            setCategoryDropdownOpen(false);
+        }
+
         setter((prev) => !prev);
     };
 
     const handleLogout = () => {
+        dispatch(setIsLoading(true));
         authService.logout().then(() => {
             dispatch(logout());
+            dispatch(setIsLoading(false));
             navigate("/");
         });
     };
+
+    useEffect(() => {
+        const handleClickOutside = (event) => {
+            if (
+                categoryDropdownRef.current &&
+                !categoryDropdownRef.current.contains(event.target) &&
+                categoryDropdownOpen
+            ) {
+                setCategoryDropdownOpen(false);
+            }
+            if (
+                profileDropdownRef.current &&
+                !profileDropdownRef.current.contains(event.target) &&
+                profileDropdownOpen
+            ) {
+                setProfileDropdownOpen(false);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => {
+            document.removeEventListener("click", handleClickOutside);
+        };
+    }, [categoryDropdownOpen, profileDropdownOpen]);
 
     useGSAP(() => {
         ScrollTrigger.create({
@@ -65,20 +100,14 @@ const Navbar = () => {
             );
         } else if (status === true && userData) {
             return (
-                <div className="relative ml-3">
+                <div className="relative ml-3" ref={profileDropdownRef}>
                     <button
-                        onClick={() =>
-                            toggleDropdown(setProfileDropdownOpen)
-                        }
+                        onClick={() => toggleDropdown(setProfileDropdownOpen)}
                         className="flex text-xl rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
-                        <span className="sr-only">
-                            Open user menu
-                        </span>
+                        <span className="sr-only">Open user menu</span>
                         <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            {userData.name
-                                .charAt(0)
-                                .toUpperCase()}
+                            {userData.name.charAt(0).toUpperCase()}
                         </div>
                     </button>
 
@@ -91,9 +120,7 @@ const Navbar = () => {
                                             href="#history"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                             onClick={() =>
-                                                setProfileDropdownOpen(
-                                                    false
-                                                )
+                                                setProfileDropdownOpen(false)
                                             }
                                         >
                                             History
@@ -102,9 +129,7 @@ const Navbar = () => {
                                             href="#read-list"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                             onClick={() =>
-                                                setProfileDropdownOpen(
-                                                    false
-                                                )
+                                                setProfileDropdownOpen(false)
                                             }
                                         >
                                             Read List
@@ -115,9 +140,7 @@ const Navbar = () => {
                                         href="#your-blogs"
                                         className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                         onClick={() =>
-                                            setProfileDropdownOpen(
-                                                false
-                                            )
+                                            setProfileDropdownOpen(false)
                                         }
                                     >
                                         Your Blogs
@@ -126,9 +149,7 @@ const Navbar = () => {
                                 <div
                                     className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => {
-                                        setProfileDropdownOpen(
-                                            false
-                                        );
+                                        setProfileDropdownOpen(false);
                                         handleLogout();
                                     }}
                                 >
@@ -162,16 +183,12 @@ const Navbar = () => {
             );
         } else if (status === true && userData) {
             return (
-                <>
+                <div ref={profileDropdownRef}>
                     <div className="pl-3 pr-4 py-2 flex items-center">
                         <div className="mr-3 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            {userData.name
-                                .charAt(0)
-                                .toUpperCase()}
+                            {userData.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className="font-medium">
-                            {userData.name}
-                        </span>
+                        <span className="font-medium">{userData.name}</span>
                     </div>
 
                     {role !== "author" ? (
@@ -203,7 +220,7 @@ const Navbar = () => {
                     >
                         Logout
                     </button>
-                </>
+                </div>
             );
         } else {
             // Loading state
@@ -238,57 +255,179 @@ const Navbar = () => {
                             </span>
                         </Link>
                     </div>
-
                     {/* Mobile menu button */}
-                    <div className="flex items-center sm:hidden font-jura">
-                        <button
-                            onClick={() => setIsOpen(!isOpen)}
-                            className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
-                        >
-                            <span className="sr-only">Open main menu</span>
-                            {isOpen ? (
-                                <svg
-                                    className="block h-6 w-6"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M6 18L18 6M6 6l12 12"
-                                    />
-                                </svg>
-                            ) : (
-                                <svg
-                                    className="block h-6 w-6"
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        strokeLinecap="round"
-                                        strokeLinejoin="round"
-                                        strokeWidth="2"
-                                        d="M4 6h16M4 12h16M4 18h16"
-                                    />
-                                </svg>
-                            )}
-                        </button>
-                    </div>
+                    {showNav && (
+                        <div className="flex items-center sm:hidden font-jura">
+                            <button
+                                onClick={() => setIsOpen(!isOpen)}
+                                className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
+                            >
+                                <span className="sr-only">Open main menu</span>
+                                {isOpen ? (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M6 18L18 6M6 6l12 12"
+                                        />
+                                    </svg>
+                                ) : (
+                                    <svg
+                                        className="block h-6 w-6"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M4 6h16M4 12h16M4 18h16"
+                                        />
+                                    </svg>
+                                )}
+                            </button>
+                        </div>
+                    )}
 
                     {/* Right side - Navigation */}
-                    <div className="hidden sm:flex sm:items-center sm:space-x-4 font-jura">
-                        {/* Categories Dropdown */}
-                        <div className="relative">
+                    {showNav && (
+                        <div className="hidden sm:flex sm:items-center sm:space-x-4 font-jura">
+                            {/* Categories Dropdown */}
+                            <div className="relative" ref={categoryDropdownRef}>
+                                <button
+                                    onClick={() =>
+                                        toggleDropdown(setCategoryDropdownOpen)
+                                    }
+                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 focus:outline-none"
+                                >
+                                    Categories
+                                    <svg
+                                        className="w-4 h-4 ml-1 inline-block"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            strokeLinecap="round"
+                                            strokeLinejoin="round"
+                                            strokeWidth="2"
+                                            d="M19 9l-7 7-7-7"
+                                        />
+                                    </svg>
+                                </button>
+
+                                {categoryDropdownOpen && (
+                                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                                        <div className="py-1">
+                                            {[
+                                                "Reviews",
+                                                "Guides",
+                                                "Stories",
+                                                "Travel",
+                                                "Comparos",
+                                                "Experience",
+                                            ].map((item) => (
+                                                <Link
+                                                    to={`/category/${item}`}
+                                                    key={item}
+                                                    className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
+                                                    onClick={() =>
+                                                        setCategoryDropdownOpen(
+                                                            false
+                                                        )
+                                                    }
+                                                >
+                                                    {item}
+                                                </Link>
+                                            ))}
+                                        </div>
+                                    </div>
+                                )}
+                            </div>
+
+                            {/* Standard navigation items */}
+                            {role !== "author" && (
+                                <>
+                                    <a
+                                        href="#community"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        Community
+                                    </a>
+                                    <a
+                                        href="#gallery"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        Gallery
+                                    </a>
+                                    {role !== "user" && (
+                                        <Link
+                                            to="/writer-signup"
+                                            className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        >
+                                            Write
+                                        </Link>
+                                    )}
+                                    <Link
+                                        to={"/about"}
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        About
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* Writer-specific navigation items */}
+                            {status && role === "author" && (
+                                <>
+                                    <Link
+                                        to="/add-blog"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        Add Post
+                                    </Link>
+                                    <Link
+                                        to="/edit-blog"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        Update Post
+                                    </Link>
+                                    <Link
+                                        to="/delete-blog"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                    >
+                                        Delete Post
+                                    </Link>
+                                </>
+                            )}
+
+                            {/* Authentication */}
+                            {renderAuthSection()}
+                        </div>
+                    )}
+                </div>
+            </div>
+
+            {/* Mobile menu, show/hide based on menu state */}
+            {isOpen && showNav && (
+                <div className="sm:hidden border-t border-gray-200 font-jura">
+                    <div className="pt-2 pb-3 space-y-1">
+                        <div ref={categoryDropdownRef}>
                             <button
                                 onClick={() =>
                                     toggleDropdown(setCategoryDropdownOpen)
                                 }
-                                className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 focus:outline-none"
+                                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                             >
                                 Categories
                                 <svg
@@ -308,144 +447,29 @@ const Navbar = () => {
                             </button>
 
                             {categoryDropdownOpen && (
-                                <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
-                                    <div className="py-1">
-                                        {[
-                                            "Reviews",
-                                            "Guides",
-                                            "Stories",
-                                            "Travel",
-                                            "Comparos",
-                                            "Experience",
-                                        ].map((item) => (
-                                            <Link
-                                                to={`/category/${item}`}
-                                                key={item}
-                                                className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
-                                                onClick={() =>
-                                                    setCategoryDropdownOpen(
-                                                        false
-                                                    )
-                                                }
-                                            >
-                                                {item}
-                                            </Link>
-                                        ))}
-                                    </div>
+                                <div className="pl-6 pr-4 py-2 space-y-1">
+                                    {[
+                                        "Reviews",
+                                        "Guides",
+                                        "Stories",
+                                        "Travel",
+                                        "Comparos",
+                                        "Experience",
+                                    ].map((item) => (
+                                        <Link
+                                            to={`/category/${item}`}
+                                            key={item}
+                                            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                            onClick={() =>
+                                                setCategoryDropdownOpen(false)
+                                            }
+                                        >
+                                            {item}
+                                        </Link>
+                                    ))}
                                 </div>
                             )}
                         </div>
-
-                        {/* Standard navigation items */}
-                        {role !== "author" && (
-                            <>
-                                <a
-                                    href="#community"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Community
-                                </a>
-                                <a
-                                    href="#gallery"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Gallery
-                                </a>
-                                <Link
-                                    to="/writer-signup"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Write
-                                </Link>
-                                <Link
-                                    to={"/about"}
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    About
-                                </Link>
-                            </>
-                        )}
-
-                        {/* Writer-specific navigation items */}
-                        {status && role === "author" && (
-                            <>
-                                <Link
-                                    to="/add-blog"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Add Post
-                                </Link>
-                                <Link
-                                    to="/edit-blog"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Update Post
-                                </Link>
-                                <Link
-                                    to="/delete-blog"
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
-                                >
-                                    Delete Post
-                                </Link>
-                            </>
-                        )}
-
-                        {/* Authentication */}
-                        {renderAuthSection()}
-                    </div>
-                </div>
-            </div>
-
-            {/* Mobile menu, show/hide based on menu state */}
-            {isOpen && (
-                <div className="sm:hidden border-t border-gray-200 font-jura">
-                    <div className="pt-2 pb-3 space-y-1">
-                        <button
-                            onClick={() =>
-                                toggleDropdown(setCategoryDropdownOpen)
-                            }
-                            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-                        >
-                            Categories
-                            <svg
-                                className="w-4 h-4 ml-1 inline-block"
-                                xmlns="http://www.w3.org/2000/svg"
-                                fill="none"
-                                viewBox="0 0 24 24"
-                                stroke="currentColor"
-                            >
-                                <path
-                                    strokeLinecap="round"
-                                    strokeLinejoin="round"
-                                    strokeWidth="2"
-                                    d="M19 9l-7 7-7-7"
-                                />
-                            </svg>
-                        </button>
-
-                        {categoryDropdownOpen && (
-                            <div className="pl-6 pr-4 py-2 space-y-1">
-                                {[
-                                    "Reviews",
-                                    "Guides",
-                                    "Stories",
-                                    "Travel",
-                                    "Comparos",
-                                    "Experience",
-                                ].map((item) => (
-                                    <Link
-                                        to={`/category/${item}`}
-                                        key={item}
-                                        className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-                                        onClick={() =>
-                                            setCategoryDropdownOpen(false)
-                                        }
-                                    >
-                                        {item}
-                                    </Link>
-                                ))}
-                            </div>
-                        )}
 
                         {role !== "author" && (
                             <>

@@ -1,16 +1,25 @@
 import { Editor } from "@tinymce/tinymce-react";
-import React from "react";
+import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import conf from "../conf/conf";
 
 const RTE = ({ label, name, control, defaultValue = "" }) => {
+    const [isEditorReady, setIsEditorReady] = useState(false);
+
     return (
-        <div className="w-full">
+        <div className="w-full relative">
             {label && (
                 <label className="inline-block mb-1 pl-1 text-md font-semibold">
                     {label}
                 </label>
             )}
+
+            {!isEditorReady && (
+                <div className="flex items-center justify-center h-[500px] caret-transparent">
+                    <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+                </div>
+            )}
+
             <Controller
                 name={name || "content"}
                 control={control}
@@ -18,10 +27,9 @@ const RTE = ({ label, name, control, defaultValue = "" }) => {
                 render={({ field: { onChange } }) => (
                     <Editor
                         apiKey={conf.tinyMceKey}
-                        control={control}
                         initialValue={defaultValue}
+                        onInit={() => setIsEditorReady(true)}
                         init={{
-                            initialValue: defaultValue,
                             height: 500,
                             menubar: true,
                             plugins: [
@@ -30,7 +38,6 @@ const RTE = ({ label, name, control, defaultValue = "" }) => {
                                 "autolink",
                                 "lists",
                                 "link",
-                                "image",
                                 "charmap",
                                 "preview",
                                 "anchor",
@@ -41,13 +48,11 @@ const RTE = ({ label, name, control, defaultValue = "" }) => {
                                 "insertdatetime",
                                 "media",
                                 "table",
-                                "code",
                                 "help",
                                 "wordcount",
-                                "anchor",
                             ],
                             toolbar:
-                                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent |removeformat | help",
+                                "undo redo | blocks | image | bold italic forecolor | alignleft aligncenter alignright alignjustify | bullist numlist outdent indent | removeformat | help",
                             content_style:
                                 "body { font-family:Helvetica,Arial,sans-serif; font-size:14px }",
                         }}

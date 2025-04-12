@@ -6,6 +6,7 @@ import dataService from "../appwrite/dataService";
 import { useSelector, useDispatch } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { addBlog, editBlog } from "../store/blogSlice";
+import { setIsLoading } from "../store/utilitySlice";
 
 const BlogForm = ({ post, image }) => {
     const { register, handleSubmit, control, getValues, watch, setValue } =
@@ -23,6 +24,7 @@ const BlogForm = ({ post, image }) => {
     const dispatch = useDispatch();
     const [previewURL, setPreviewURL] = useState(image ? image : "");
     const submitBlog = async (data) => {
+        dispatch(setIsLoading(true));
         if (post) {
             const file = data.image[0]
                 ? await dataService.uploadArticleImage(data.image[0])
@@ -35,6 +37,7 @@ const BlogForm = ({ post, image }) => {
             const updatedPost = await dataService.editPost(post.$id, data);
             if (updatedPost) {
                 dispatch(editBlog(updatedPost));
+                dispatch(setIsLoading(false));
                 navigate(`/blog/${post.$id}`);
             }
         } else {
@@ -42,9 +45,11 @@ const BlogForm = ({ post, image }) => {
             if (file) {
                 data.featuredImage = file.$id;
                 data.userId = userData.$id;
+                data.userName = userData.name;
                 const post = await dataService.createPost(data);
                 if (post) {
                     dispatch(addBlog(post));
+                    dispatch(setIsLoading(false));
                     navigate(`/blog/${post.$id}`);
                 }
             }
