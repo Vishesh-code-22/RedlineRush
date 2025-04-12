@@ -20,6 +20,7 @@ export class DataService {
         featuredImage,
         status,
         userId,
+        userName,
         category,
     }) {
         try {
@@ -33,6 +34,7 @@ export class DataService {
                     featuredImage,
                     status,
                     userId,
+                    userName,
                     category,
                     slug,
                 }

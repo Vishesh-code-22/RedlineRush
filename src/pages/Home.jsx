@@ -7,7 +7,7 @@ import {
     NewsletterBox,
 } from "../components";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Autoplay, Parallax } from "swiper/modules";
 import "swiper/css";
@@ -17,55 +17,62 @@ import "swiper/css/autoplay";
 
 import { Pagination, Navigation } from "swiper/modules";
 import dataService from "../appwrite/dataService";
+import { setShowNav } from "../store/utilitySlice";
 
 const Home = () => {
     const blogData = useSelector((state) => state.blog.blogData);
+    const filteredBlogs = blogData.slice(-5).reverse();
+    const { isLoading } = useSelector((state) => state.utility);
+    console.log(isLoading);
 
-    return !blogData || blogData.length === 0 ? (
-        <div className="flex items-center justify-center min-h-screen">
-            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
-    ) : (
+    const dispatch = useDispatch();
+    dispatch(setShowNav(true));
+    return (
         <div className="flex flex-col w-full font-jura px-16 gap-12">
-            <div className="flex w-full flex-col">
-                <div className="title-container">
-                    <h2 className="title-main">Latest</h2>
-                    <p className="subtitle-main">Read the latest blogs</p>
+            {!filteredBlogs || filteredBlogs.length === 0 ? null : (
+                <div className="flex w-full flex-col">
+                    <div className="title-container">
+                        <h2 className="title-main">Latest</h2>
+                        <p className="subtitle-main">Read the latest blogs</p>
+                    </div>
+                    <Swiper
+                        modules={[Pagination, Navigation, Autoplay, Parallax]}
+                        spaceBetween={20}
+                        slidesPerView={1}
+                        navigation
+                        speed={1000}
+                        pagination={{
+                            clickable: true,
+                        }}
+                        autoplay={{
+                            delay: 3000,
+                            disableOnInteraction: false,
+                            pauseOnMouseEnter: true,
+                        }}
+                        className="w-full rounded-2xl overflow-hidden"
+                        parallax={true}
+                        loop={true}
+                    >
+                        {filteredBlogs.map((blog) => (
+                            <SwiperSlide key={blog.$id}>
+                                <Link
+                                    to={`/blog/${blog.$id}`}
+                                    className="block"
+                                >
+                                    <HomeCard
+                                        title={blog.title}
+                                        image={dataService.getArticleImagePreview(
+                                            blog.featuredImage
+                                        )}
+                                        content={blog.content}
+                                        category={blog.category}
+                                    />
+                                </Link>
+                            </SwiperSlide>
+                        ))}
+                    </Swiper>
                 </div>
-                <Swiper
-                    modules={[Pagination, Navigation, Autoplay, Parallax]}
-                    spaceBetween={20}
-                    slidesPerView={1}
-                    navigation
-                    speed={1000}
-                    pagination={{
-                        clickable: true,
-                    }}
-                    autoplay={{
-                        delay: 3000,
-                        disableOnInteraction: false,
-                        pauseOnMouseEnter: true,
-                    }}
-                    className="w-full rounded-2xl overflow-hidden"
-                    parallax={true}
-                    loop={true}
-                >
-                    {blogData.map((blog) => (
-                        <SwiperSlide key={blog.$id}>
-                            <Link to={`/blog/${blog.$id}`} className="block">
-                                <HomeCard
-                                    title={blog.title}
-                                    image={dataService.getArticleImagePreview(
-                                        blog.featuredImage
-                                    )}
-                                    content={blog.content}
-                                    category={blog.category}
-                                />
-                            </Link>
-                        </SwiperSlide>
-                    ))}
-                </Swiper>
-            </div>
+            )}
             <CategoryBox />
 
             <Community />

@@ -1,4 +1,4 @@
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { Footer, Navbar } from "./components";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
@@ -10,7 +10,8 @@ import { addBlog } from "./store/blogSlice";
 function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
-    
+    const isLoading = useSelector((state) => state.utility.isLoading);
+
     // Handle authentication state
     useEffect(() => {
         const checkAuth = async () => {
@@ -53,16 +54,16 @@ function App() {
         fetchPosts();
     }, [dispatch]);
 
-    return !loading ? (
+    return loading || isLoading ? (
+        <div className="flex items-center justify-center min-h-screen caret-transparent">
+            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+    ) : (
         <>
             <Navbar />
             <Outlet />
             <Footer />
         </>
-    ) : (
-        <div className="flex items-center justify-center min-h-screen">
-            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
-        </div>
     );
 }
 
