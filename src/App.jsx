@@ -3,7 +3,7 @@ import { Footer, Navbar } from "./components";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import authService from "./appwrite/authService";
-import { login, logout } from "./store/authSlice";
+import { addAvatar, login, logout } from "./store/authSlice";
 import dataService from "./appwrite/dataService";
 import { addBlog } from "./store/blogSlice";
 
@@ -18,8 +18,13 @@ function App() {
             try {
                 const userData = await authService.getCurrentUser();
                 if (userData) {
-                    const role = await authService.getUserRole(userData.$id);
-                    dispatch(login({ userData, role }));
+                    const userMetaData = await authService.getUserMetaData(
+                        userData.$id
+                    );
+                    console.log(userMetaData);
+
+                    dispatch(login({ userData, role: userMetaData.role }));
+                    dispatch(addAvatar(userMetaData.avatar));
                 } else {
                     dispatch(logout());
                 }
@@ -48,6 +53,8 @@ function App() {
                 }
             } catch (error) {
                 console.error("Blog fetch error:", error);
+            } finally {
+                setLoading(false);
             }
         };
 

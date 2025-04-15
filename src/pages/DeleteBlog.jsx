@@ -27,9 +27,7 @@ const DeleteBlog = () => {
         await dataService.deleteArticleImage(deleteImage);
         dispatch(deleteBlog(deleteId));
         dispatch(setIsLoading(false));
-        console.log("blog data", blogData);
     };
-    console.log("filteredBlogs", filteredBlogs);
 
     return (
         <div

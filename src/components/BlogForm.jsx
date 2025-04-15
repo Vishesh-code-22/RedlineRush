@@ -20,6 +20,10 @@ const BlogForm = ({ post, image }) => {
             },
         });
     const userData = useSelector((state) => state.auth.userData);
+    const avatarId = useSelector((state) => state.auth.avatar);
+    const avatar = dataService.getUserImagePreview(avatarId);
+    console.log(avatar);
+
     const navigate = useNavigate();
     const dispatch = useDispatch();
     const [previewURL, setPreviewURL] = useState(image ? image : "");
@@ -46,6 +50,7 @@ const BlogForm = ({ post, image }) => {
                 data.featuredImage = file.$id;
                 data.userId = userData.$id;
                 data.userName = userData.name;
+                data.userAvatar = avatar;
                 const post = await dataService.createPost(data);
                 if (post) {
                     dispatch(addBlog(post));

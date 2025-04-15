@@ -58,14 +58,14 @@ export class AuthService {
         }
     }
 
-    async getUserRole(userId) {
+    async getUserMetaData(userId) {
         try {
             const user = await this.databases.getDocument(
                 conf.appwriteDatabaseId,
                 conf.appweiteUserCollectionId,
                 userId
             );
-            return user.role;
+            return user;
         } catch (error) {
             console.error(error);
             throw error;

@@ -22,6 +22,7 @@ export class DataService {
         userId,
         userName,
         category,
+        userAvatar,
     }) {
         try {
             return await this.databases.createDocument(
@@ -37,6 +38,7 @@ export class DataService {
                     userName,
                     category,
                     slug,
+                    userAvatar,
                 }
             );
         } catch (error) {
@@ -163,7 +165,7 @@ export class DataService {
     }
 
     getUserImagePreview(imageId) {
-        return this.storage.getFilePreview(conf.appwriteUserBucketId, imageId);
+        return this.storage.getFileView(conf.appwriteUserBucketId, imageId);
     }
 }
 

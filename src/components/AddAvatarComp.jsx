@@ -44,7 +44,7 @@ const AddAvatarComp = ({ id }) => {
                 if (avatarId) {
                     await dataService.submitUserImage(avatarId, id);
                     dispatch(addAvatar(avatarId));
-                    setIsLoading(false);
+                    dispatch(setIsLoading(false));
                     navigate("/");
                 }
             }

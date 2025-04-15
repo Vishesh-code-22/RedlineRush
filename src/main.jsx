@@ -14,12 +14,14 @@ import {
     WriterLogin,
     EditThisBlog,
     AddAvatar,
+    YourBlogs,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
 import AddBlog from "./pages/AddBlog.jsx";
 import EditBlog from "./pages/EditBlog.jsx";
 import DeleteBlog from "./pages/DeleteBlog.jsx";
+import { AuthLayout } from "./components";
 
 const router = createBrowserRouter([
     {
@@ -60,23 +62,51 @@ const router = createBrowserRouter([
             },
             {
                 path: "/add-blog",
-                element: <AddBlog />,
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <AddBlog />
+                    </AuthLayout>
+                ),
             },
             {
                 path: "/edit-blog/",
-                element: <EditBlog />,
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <EditBlog />
+                    </AuthLayout>
+                ),
             },
             {
                 path: "/delete-blog",
-                element: <DeleteBlog />,
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <DeleteBlog />
+                    </AuthLayout>
+                ),
             },
             {
                 path: "/edit-this-blog/:id",
-                element: <EditThisBlog />,
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <EditThisBlog />
+                    </AuthLayout>
+                ),
             },
             {
                 path: "/add-avatar/:id",
-                element: <AddAvatar />,
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <AddAvatar />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "/your-blogs",
+                element: (
+                    <AuthLayout authentication roleAuthor>
+                        <YourBlogs />
+                    </AuthLayout>
+                ),
             },
         ],
     },
