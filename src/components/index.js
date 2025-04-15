@@ -12,6 +12,7 @@ import SignupComp from "./SignupComp";
 import BlogForm from "./BlogForm";
 import DeleteCard from "./DeleteCard";
 import AddAvatarComp from "./AddAvatarComp";
+import AuthLayout from "./AuthLayout";
 
 export {
     Navbar,
@@ -28,4 +29,5 @@ export {
     BlogForm,
     DeleteCard,
     AddAvatarComp,
+    AuthLayout,
 };

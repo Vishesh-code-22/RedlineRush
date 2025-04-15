@@ -23,7 +23,6 @@ const Home = () => {
     const blogData = useSelector((state) => state.blog.blogData);
     const filteredBlogs = blogData.slice(-5).reverse();
     const { isLoading } = useSelector((state) => state.utility);
-    console.log(isLoading);
 
     const dispatch = useDispatch();
     dispatch(setShowNav(true));

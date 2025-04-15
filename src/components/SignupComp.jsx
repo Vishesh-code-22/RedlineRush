@@ -1,10 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { login } from "../store/authSlice";
 import authService from "../appwrite/authService";
-import { setIsLoading, setShowNav } from "../store/utilitySlice";
+import { setShowNav } from "../store/utilitySlice";
 
 const SignupComp = ({ writerSignup = false }) => {
     const {
@@ -16,12 +16,13 @@ const SignupComp = ({ writerSignup = false }) => {
     } = useForm({ mode: "onSubmit" });
 
     const [error, setError] = useState("");
+    const [loading, setLoading] = useState(false);
     const dispatch = useDispatch();
     const navigate = useNavigate();
     const signup = async (data) => {
         setError("");
-        dispatch(setIsLoading(true));
-        dispatch(setShowNav(false));
+        setLoading(true);
+        dispatch(setShowNav(true));
         try {
             const userData = {
                 name: data.name,
@@ -36,14 +37,15 @@ const SignupComp = ({ writerSignup = false }) => {
                 const userInfo = await authService.getCurrentUser();
                 // Take user photo and dispatch WITH it, Required
                 dispatch(login({ userData: userInfo, role: userData.role }));
-                console.log(userInfo.$id);
-                dispatch(setIsLoading(false));
+                setLoading(false);
+                dispatch(setShowNav(false));
                 navigate(`/add-avatar/${userInfo.$id}`);
+                reset();
             }
             // navigate("/");
-            reset();
         } catch (error) {
             setError(error.message);
+            setLoading(false);
         }
     };
 
@@ -51,8 +53,11 @@ const SignupComp = ({ writerSignup = false }) => {
 
     // State for toggling password visibility
     const [showPassword, setShowPassword] = useState(false);
-
-    return (
+    return loading ? (
+        <div className="flex items-center justify-center min-h-screen caret-transparent">
+            <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
+        </div>
+    ) : (
         <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg w-[30%] font-jura">
             {/* Logo and Heading */}
             <div className="flex flex-col items-center mb-6">

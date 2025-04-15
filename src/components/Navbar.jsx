@@ -7,12 +7,16 @@ import { useDispatch, useSelector } from "react-redux";
 import authService from "../appwrite/authService";
 import { logout } from "../store/authSlice";
 import { setIsLoading } from "../store/utilitySlice";
+import dataService from "../appwrite/dataService";
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
     // Take status, role and userdata from store
     // Conditionally show different navbars
-    const { status, role, userData } = useSelector((state) => state.auth);
+    const { status, role, userData, avatar } = useSelector(
+        (state) => state.auth
+    );
+
     const { showNav } = useSelector((state) => state.utility);
     const navigate = useNavigate();
 
@@ -106,8 +110,12 @@ const Navbar = () => {
                         className="flex text-xl rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                         <span className="sr-only">Open user menu</span>
-                        <div className="h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
-                            {userData.name.charAt(0).toUpperCase()}
+                        <div className="h-10 w-10 rounded-full overflow-hidden border border-gray-200 flex items-center justify-center bg-gray-50 shadow-sm">
+                            <img
+                                src={dataService.getUserImagePreview(avatar)}
+                                alt="User avatar"
+                                className="h-full w-full object-center object-cover"
+                            />
                         </div>
                     </button>
 
@@ -136,15 +144,15 @@ const Navbar = () => {
                                         </a>
                                     </>
                                 ) : (
-                                    <a
-                                        href="#your-blogs"
+                                    <Link
+                                        to="/your-blogs"
                                         className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                         onClick={() =>
                                             setProfileDropdownOpen(false)
                                         }
                                     >
                                         Your Blogs
-                                    </a>
+                                    </Link>
                                 )}
                                 <div
                                     className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100 cursor-pointer"
@@ -207,12 +215,12 @@ const Navbar = () => {
                             </a>
                         </>
                     ) : (
-                        <a
-                            href="#your-blogs"
+                        <Link
+                            to="/your-blogs"
                             className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                         >
                             Your Blogs
-                        </a>
+                        </Link>
                     )}
                     <button
                         className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"

@@ -3,7 +3,7 @@ import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import authService from "../appwrite/authService";
-import { login } from "../store/authSlice";
+import { addAvatar, login } from "../store/authSlice";
 
 const LoginComp = ({ writerlogin = false }) => {
     const {
@@ -23,7 +23,10 @@ const LoginComp = ({ writerlogin = false }) => {
             const session = await authService.login(data);
             if (session) {
                 const userInfo = await authService.getCurrentUser();
-                const role = await authService.getUserRole(userInfo.$id);
+                const userData = await authService.getUserMetaData(
+                    userInfo.$id
+                );
+                const role = userData.role;
 
                 // Check if the user has the correct role for this login page
                 if (writerlogin && role !== "author") {
@@ -44,6 +47,7 @@ const LoginComp = ({ writerlogin = false }) => {
 
                 // If role is correct, proceed with login
                 dispatch(login({ userData: userInfo, role: role }));
+                dispatch(addAvatar(userData.avatar));
                 navigate("/");
                 reset();
             }

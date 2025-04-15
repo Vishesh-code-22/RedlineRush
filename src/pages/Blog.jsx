@@ -9,7 +9,6 @@ const Blog = () => {
     const { id } = useParams();
     const blogData = useSelector((state) => state.blog.blogData);
     // const user = useSelector((state) => state.auth.userData);
-    console.log("inside blog", blogData);
 
     // Note: Any code here will execute BEFORE the Promise resolves
 
@@ -49,9 +48,9 @@ const Blog = () => {
                     <div className="blog-meta flex gap-12 items-center w-1/2 justify-center">
                         <div className="user-data flex gap-2 items-center">
                             <img
-                                src="https://images.unsplash.com/photo-1522787126632-aa89815837ab?q=80&w=2681&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D"
+                                src={blog.userAvatar}
                                 alt="user photo"
-                                className="user-photo h-12 w-12 rounded-full object-cover"
+                                className="user-photo h-12 w-12 rounded-full object-cover object-center"
                             />
                             <span className="user-name font-bold">
                                 {blog.userName}
