@@ -13,6 +13,8 @@ import BlogForm from "./BlogForm";
 import DeleteCard from "./DeleteCard";
 import AddAvatarComp from "./AddAvatarComp";
 import AuthLayout from "./AuthLayout";
+import PolaroidCard from "./PolaroidCard";
+import HorizontalCard from "./HorizontalCard";
 
 export {
     Navbar,
@@ -30,4 +32,6 @@ export {
     DeleteCard,
     AddAvatarComp,
     AuthLayout,
+    PolaroidCard,
+    HorizontalCard,
 };

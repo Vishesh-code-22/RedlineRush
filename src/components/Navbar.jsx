@@ -124,15 +124,15 @@ const Navbar = () => {
                             <div className="py-1">
                                 {role !== "author" ? (
                                     <>
-                                        <a
-                                            href="#history"
+                                        <Link
+                                            to="/history"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                             onClick={() =>
                                                 setProfileDropdownOpen(false)
                                             }
                                         >
                                             History
-                                        </a>
+                                        </Link>
                                         <a
                                             href="#read-list"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
@@ -201,12 +201,12 @@ const Navbar = () => {
 
                     {role !== "author" ? (
                         <>
-                            <a
-                                href="#history"
+                            <Link
+                                to="/history"
                                 className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                             >
                                 History
-                            </a>
+                            </Link>
                             <a
                                 href="#read-list"
                                 className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
@@ -372,12 +372,12 @@ const Navbar = () => {
                                     >
                                         Community
                                     </a>
-                                    <a
-                                        href="#gallery"
+                                    <Link
+                                        to="/gallery"
                                         className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
                                     >
                                         Gallery
-                                    </a>
+                                    </Link>
                                     {role !== "user" && (
                                         <Link
                                             to="/writer-signup"
@@ -487,12 +487,12 @@ const Navbar = () => {
                                 >
                                     Community
                                 </a>
-                                <a
-                                    href="#gallery"
+                                <Link
+                                    to="/gallery"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
                                 >
                                     Gallery
-                                </a>
+                                </Link>
                                 <Link
                                     to="/writer-signup"
                                     className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"

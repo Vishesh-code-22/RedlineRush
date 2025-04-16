@@ -1,15 +1,30 @@
 import React, { useEffect } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useParams } from "react-router-dom";
 import { HalfCard } from "../components";
 import dataService from "../appwrite/dataService";
 import parse from "html-react-parser";
+import { addHistory } from "../store/authSlice";
 
 const Blog = () => {
     const { id } = useParams();
+    const dispatch = useDispatch();
     const blogData = useSelector((state) => state.blog.blogData);
-    // const user = useSelector((state) => state.auth.userData);
-
+    const status = useSelector((state) => state.auth.status);
+    const user = useSelector((state) => state.auth.userData);
+    // make sure user is logged in and no duplicates
+    if (status) {
+        // take user id
+        const userId = user.$id;
+        // send to appwrite
+        dataService
+            .updateHistory(userId, id)
+            .then((result) => {
+                dispatch(addHistory(result.history));
+            })
+            .catch((error) => console.log(error));
+    }
+    // dispatch
     // Note: Any code here will execute BEFORE the Promise resolves
 
     const blog = blogData.find((blog) => blog.$id === id);

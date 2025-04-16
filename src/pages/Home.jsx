@@ -22,7 +22,6 @@ import { setShowNav } from "../store/utilitySlice";
 const Home = () => {
     const blogData = useSelector((state) => state.blog.blogData);
     const filteredBlogs = blogData.slice(-5).reverse();
-    const { isLoading } = useSelector((state) => state.utility);
 
     const dispatch = useDispatch();
     dispatch(setShowNav(true));

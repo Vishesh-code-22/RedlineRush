@@ -1,4 +1,5 @@
 import React from "react";
+import { Link } from "react-router-dom";
 
 const Community = () => {
     return (
@@ -33,7 +34,8 @@ const Community = () => {
                         { icon: "/icons/submit.png", title: "Submit" },
                         { icon: "/icons/merch.png", title: "Merch" },
                     ].map((item, index) => (
-                        <div
+                        <Link
+                            to={item.title === "Submit" ? "/submit" : "#"}
                             key={index}
                             className="flex flex-col justify-center h-60 w-80 items-center p-4 bg-white/10 rounded-lg transition-transform duration-300 hover:scale-110"
                         >
@@ -45,7 +47,7 @@ const Community = () => {
                             <p className="text-2xl font-bold text-white">
                                 {item.title}
                             </p>
-                        </div>
+                        </Link>
                     ))}
                 </div>
             </div>

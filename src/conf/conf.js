@@ -12,6 +12,9 @@ const conf = {
     appweiteUserCollectionId: String(
         import.meta.env.VITE_APPWRITE_USER_COLLECTION_ID
     ),
+    appwriteGalleryCollectionId: String(
+        import.meta.env.VITE_APPWRITE_GALLERY_COLLECTION_ID
+    ),
     tinyMceKey: String(import.meta.env.VITE_TINY_MCE_KEY),
 };
 
