@@ -15,6 +15,7 @@ import AddAvatarComp from "./AddAvatarComp";
 import AuthLayout from "./AuthLayout";
 import PolaroidCard from "./PolaroidCard";
 import HorizontalCard from "./HorizontalCard";
+import ToggleDarkMode from "./ToggleDarkMode";
 
 export {
     Navbar,
@@ -34,4 +35,5 @@ export {
     AuthLayout,
     PolaroidCard,
     HorizontalCard,
+    ToggleDarkMode,
 };

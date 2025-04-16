@@ -8,6 +8,7 @@ import authService from "../appwrite/authService";
 import { logout } from "../store/authSlice";
 import { setIsLoading } from "../store/utilitySlice";
 import dataService from "../appwrite/dataService";
+import { ToggleDarkMode } from "./";
 gsap.registerPlugin(ScrollTrigger);
 
 const Navbar = () => {
@@ -16,6 +17,7 @@ const Navbar = () => {
     const { status, role, userData, avatar } = useSelector(
         (state) => state.auth
     );
+    const isDarkMode = useSelector((state) => state.utility.isDarkMode);
 
     const { showNav } = useSelector((state) => state.utility);
     const navigate = useNavigate();
@@ -97,7 +99,7 @@ const Navbar = () => {
             return (
                 <Link
                     to={"/login"}
-                    className="ml-2 px-6 py-1 text-xl font-medium text-white bg-black rounded-md hover:bg-gray-800"
+                    className="ml-2 px-6 py-1 text-xl font-medium text-white bg-black rounded-md hover:bg-gray-800 dark:bg-gray-200 dark:text-black dark:hover:bg-white"
                 >
                     Login
                 </Link>
@@ -241,24 +243,36 @@ const Navbar = () => {
     };
 
     return (
-        <nav className="bg-white shadow-sm sticky top-0 z-20 font-jura">
-            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-6">
+        <nav className="bg-white shadow-sm sticky top-0 z-20 font-jura dark:bg-black ">
+            <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-6 ">
                 <div
-                    className="height-div flex justify-between h-22"
+                    className="height-div flex justify-between h-22 "
                     ref={scrollRef}
                 >
                     {/* Left side - Brand */}
-                    <div className="flex items-center">
+                    <div className="flex items-center ">
                         <Link
                             to={"/"}
                             className="flex-shrink-0 flex items-center"
                         >
                             <img
-                                src="/icons/speedometer.png"
+                                src={
+                                    isDarkMode
+                                        ? "/icons/speedometer-white.png"
+                                        : "/icons/speedometer.png"
+                                }
                                 alt=""
                                 className="h-18 w-18"
                             />
-                            <span className="ml-2 text-xl font-medium text-gray-900 eurostile-font">
+                            <span
+                                className="ml-2 text-3xl font-bold text-transparent bg-clip-text font-jura"
+                                style={{
+                                    backgroundImage:
+                                        "url('https://images.unsplash.com/photo-1544159465-672a2b0d5f2c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
+                                    backgroundSize: "cover",
+                                    backgroundPosition: "center",
+                                }}
+                            >
                                 RedlineRush
                             </span>
                         </Link>
@@ -315,7 +329,7 @@ const Navbar = () => {
                                     onClick={() =>
                                         toggleDropdown(setCategoryDropdownOpen)
                                     }
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 focus:outline-none"
+                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Categories
                                     <svg
@@ -368,27 +382,27 @@ const Navbar = () => {
                                 <>
                                     <a
                                         href="#community"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Community
                                     </a>
                                     <Link
                                         to="/gallery"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Gallery
                                     </Link>
                                     {role !== "user" && (
                                         <Link
                                             to="/writer-signup"
-                                            className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                            className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                         >
                                             Write
                                         </Link>
                                     )}
                                     <Link
                                         to={"/about"}
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         About
                                     </Link>
@@ -400,19 +414,19 @@ const Navbar = () => {
                                 <>
                                     <Link
                                         to="/add-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Add Post
                                     </Link>
                                     <Link
                                         to="/edit-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Update Post
                                     </Link>
                                     <Link
                                         to="/delete-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900"
+                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Delete Post
                                     </Link>
@@ -420,6 +434,7 @@ const Navbar = () => {
                             )}
 
                             {/* Authentication */}
+                            <ToggleDarkMode />
                             {renderAuthSection()}
                         </div>
                     )}
@@ -435,7 +450,7 @@ const Navbar = () => {
                                 onClick={() =>
                                     toggleDropdown(setCategoryDropdownOpen)
                                 }
-                                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                             >
                                 Categories
                                 <svg
@@ -483,25 +498,25 @@ const Navbar = () => {
                             <>
                                 <a
                                     href="#community"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Community
                                 </a>
                                 <Link
                                     to="/gallery"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Gallery
                                 </Link>
                                 <Link
                                     to="/writer-signup"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Write
                                 </Link>
                                 <Link
                                     to={"/about"}
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     About
                                 </Link>
@@ -512,19 +527,19 @@ const Navbar = () => {
                             <>
                                 <Link
                                     to="/add-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Add Post
                                 </Link>
                                 <Link
                                     to="/edit-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Update Post
                                 </Link>
                                 <Link
                                     to="/delete-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Delete Post
                                 </Link>
@@ -536,7 +551,7 @@ const Navbar = () => {
                     </div>
                 </div>
             )}
-            <div className="border-b border-y-gray-900"></div>
+            <div className="border-b border-y-red-700 dark:border-red-700"></div>
         </nav>
     );
 };

@@ -11,9 +11,9 @@ const Photo = () => {
         <div className="main flex flex-col w-full font-jura">
             <div className="main-content flex flex-col w-full gap-8 my-8 px-32 items-center">
                 <div className="top flex flex-col w-full items-center">
-                    <h2 className="title text-5xl font-semibold tracking-wider text-center pb-4 text-gray-800">
+                    <h2 className="title text-5xl font-semibold tracking-wider text-center pb-4 text-gray-800 dark:text-gray-300">
                         Posted by{" "}
-                        <span className="text-5xl font-bold text-black">
+                        <span className="text-5xl font-bold text-black dark:text-gray-100">
                             {image.owner}
                         </span>
                     </h2>

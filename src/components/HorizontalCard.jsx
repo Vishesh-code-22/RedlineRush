@@ -7,7 +7,7 @@ const HorizontalCard = ({ id, image, title, content }) => {
     return (
         <Link
             to={`/blog/${id}`}
-            className="flex gap-6 items-start p-4 border rounded-lg shadow-md hover:shadow-xl transition-all duration-300 mb-4"
+            className="flex gap-6 items-start p-4 border rounded-lg shadow-md hover:shadow-xl dark:shadow-gray-500 dark:hover:shadow-lg transition-all duration-300 mb-4"
         >
             <img
                 src={image}

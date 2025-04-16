@@ -6,11 +6,11 @@ const Gallery = () => {
     const imageData = useSelector((state) => state.other.galleryData);
 
     return (
-        <div className="w-full bg-gray-50 py-16 font-jura">
+        <div className="w-full bg-gray-50 py-16 font-jura dark:bg-black dark:text-white">
             {/* Gallery Header */}
             <div className="container mx-auto px-4 mb-12 text-center">
                 <h2 className="title-main mb-3">Gallery</h2>
-                <p className="text-xl text-gray-600">
+                <p className="text-xl text-gray-600 dark:text-gray-300">
                     Check out our collection of amazing vehicles
                 </p>
             </div>

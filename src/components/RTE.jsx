@@ -2,9 +2,11 @@ import { Editor } from "@tinymce/tinymce-react";
 import React, { useState } from "react";
 import { Controller } from "react-hook-form";
 import conf from "../conf/conf";
+import { useSelector } from "react-redux";
 
 const RTE = ({ label, name, control, defaultValue = "" }) => {
     const [isEditorReady, setIsEditorReady] = useState(false);
+    const isDarkMode = useSelector((state) => state.utility.isDarkMode);
 
     return (
         <div className="w-full relative">
@@ -32,6 +34,8 @@ const RTE = ({ label, name, control, defaultValue = "" }) => {
                         init={{
                             height: 500,
                             menubar: true,
+                            skin: isDarkMode ? "oxide-dark" : "oxide",
+                            content_css: isDarkMode ? "dark" : "default",
                             plugins: [
                                 "image",
                                 "advlist",

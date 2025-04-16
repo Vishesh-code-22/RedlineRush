@@ -1,5 +1,8 @@
-@import url("https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap");
+/* @import url("https://fonts.googleapis.com/css2?family=Jura:wght@300..700&display=swap"); */
+@import url("https://fonts.googleapis.com/css2?family=Monda:wght@400..700&display=swap");
 @import "tailwindcss";
+
+@custom-variant dark (&:where(.dark, .dark *));
 
 @font-face {
     font-family: "EurostileExtendedBold";
@@ -16,7 +19,7 @@
 }
 
 @theme {
-    --font-jura: "Jura", sans-serif;
+    --font-jura: "Monda", sans-serif;
 }
 
 .title-container {
