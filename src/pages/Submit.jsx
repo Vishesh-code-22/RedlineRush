@@ -1,5 +1,5 @@
 import React, { useState, useRef, useEffect } from "react";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import dataService from "../appwrite/dataService";
 import { setIsLoading } from "../store/utilitySlice";
@@ -13,6 +13,7 @@ const Submit = () => {
     const fileInputRef = useRef(null);
     const dispatch = useDispatch();
     const navigate = useNavigate();
+    const isDarkMode = useSelector((state) => state.utility.isDarkMode);
 
     const handleImageChange = (e) => {
         const file = e.target.files[0];
@@ -89,16 +90,20 @@ const Submit = () => {
             className="flex w-full justify-center items-center"
             style={{ minHeight: "calc(100vh - 170px)" }}
         >
-            <div className="flex flex-col items-center bg-white p-8 rounded-lg shadow-lg w-[30%] font-jura">
+            <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-[30%] font-jura">
                 {/* Logo and Heading */}
                 <div className="flex flex-col items-center mb-6">
                     <img
-                        src="/icons/speedometer.png"
+                        src={
+                            isDarkMode
+                                ? "/icons/speedometer-white.png"
+                                : "/icons/speedometer.png"
+                        }
                         alt="Logo"
                         className="h-12 mb-4"
                     />
                     <h3 className="text-2xl font-bold mb-2">Submit Photo</h3>
-                    <p className="text-gray-500 text-sm">
+                    <p className="text-gray-500 text-sm dark:text-gray-300">
                         Choose a cool photo you want to showcase
                     </p>
                 </div>
@@ -109,7 +114,7 @@ const Submit = () => {
                         <img
                             src={previewUrl}
                             alt="Profile"
-                            className="w-86 h-72 border-4 rounded-2xl border-gray-200 object-cover"
+                            className="w-86 h-72 border-4 rounded-2xl border-gray-200 dark:border-gray-700 object-cover"
                         />
                         <button
                             onClick={triggerFileInput}
@@ -147,11 +152,11 @@ const Submit = () => {
                         <button
                             type="button"
                             onClick={triggerFileInput}
-                            className="w-full p-4 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 transition cursor-pointer"
+                            className="w-full p-4 border border-gray-300 rounded-lg flex items-center justify-center hover:bg-gray-50 dark:hover:bg-gray-700 transition cursor-pointer"
                         >
                             <svg
                                 xmlns="http://www.w3.org/2000/svg"
-                                className="h-6 w-6 mr-2 text-gray-500"
+                                className="h-6 w-6 mr-2 text-gray-500 dark:text-gray-300"
                                 viewBox="0 0 20 20"
                                 fill="currentColor"
                             >
@@ -166,13 +171,13 @@ const Submit = () => {
                     </div>
                     <div className="w-full mb-6">
                         <label
-                            className="block text-gray-700 text-sm font-bold mb-2"
+                            className="block text-gray-700 text-sm font-bold mb-2 dark:text-gray-300"
                             htmlFor="instagram"
                         >
                             Instagram Handle
                         </label>
                         <div className="flex items-center">
-                            <span className="bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg py-4 px-3 text-gray-500">
+                            <span className="bg-gray-100 border border-r-0 border-gray-300 rounded-l-lg py-4 px-3 text-gray-500 dark:text-gray-800">
                                 @
                             </span>
                             <input
@@ -181,7 +186,7 @@ const Submit = () => {
                                 value={instagramHandle}
                                 onChange={handleInstagramChange}
                                 placeholder="yourusername"
-                                className="w-full p-4 border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                className="w-full p-4 border border-gray-300 rounded-r-lg focus:outline-none focus:ring-2 focus:ring-blue-500 dark:focus:ring-gray-500"
                             />
                         </div>
                     </div>
@@ -189,7 +194,7 @@ const Submit = () => {
                     {/* Save Button - Full Width */}
                     <button
                         type="submit"
-                        className="w-full p-4 bg-gray-900 text-white rounded-lg hover:bg-gray-600 transition cursor-pointer disabled:bg-gray-400"
+                        className="w-full p-4 bg-gray-900 dark:bg-gray-300 text-white dark:text-black rounded-lg hover:bg-gray-600 dark:hover:bg-white transition cursor-pointer disabled:bg-gray-400"
                     >
                         Save & Continue
                     </button>

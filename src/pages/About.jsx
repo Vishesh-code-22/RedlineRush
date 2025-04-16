@@ -2,7 +2,7 @@ import React from "react";
 
 const AboutPage = () => {
     return (
-        <div className="max-w-7xl mx-auto px-6 py-10 text-gray-800 font-jura">
+        <div className="max-w-7xl mx-auto px-6 py-10 text-gray-800 dark:text-gray-300 font-jura">
             <h1 className="text-6xl font-bold mb-6 text-center">
                 About Redline Rush
             </h1>

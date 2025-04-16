@@ -3,6 +3,7 @@ import { createSlice } from "@reduxjs/toolkit";
 const initialState = {
     isLoading: false,
     showNav: true,
+    isDarkMode: false,
 };
 
 const utilitySlice = createSlice({
@@ -15,9 +16,12 @@ const utilitySlice = createSlice({
         setShowNav(state, action) {
             state.showNav = action.payload;
         },
+        setIsDarkMode(state, action) {
+            state.isDarkMode = action.payload;
+        },
     },
 });
 
-export const { setIsLoading, setShowNav } = utilitySlice.actions;
+export const { setIsLoading, setShowNav, setIsDarkMode } = utilitySlice.actions;
 
 export default utilitySlice.reducer;

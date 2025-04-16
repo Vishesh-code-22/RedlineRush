@@ -103,13 +103,13 @@ const BlogForm = ({ post, image }) => {
     return (
         <form
             onSubmit={handleSubmit(submitBlog)}
-            className="flex flex-col md:flex-row gap-8 w-full rounded-2xl full-shadow p-2 bg-white"
+            className="flex flex-col md:flex-row gap-8 w-full rounded-2xl full-shadow p-2 bg-white dark:bg-gray-800"
         >
             <div className="flex flex-col w-full md:w-1/2 gap-4">
                 <div className="flex flex-col w-full">
                     <label
                         htmlFor="title"
-                        className="text-md font-semibold text-gray-700 mb-2"
+                        className="text-md font-semibold text-gray-700 dark:text-gray-200 mb-2"
                     >
                         Title
                     </label>
@@ -124,7 +124,7 @@ const BlogForm = ({ post, image }) => {
                 <div className="flex flex-col w-full">
                     <label
                         htmlFor="slug"
-                        className="text-md font-semibold text-gray-700 mb-2"
+                        className="text-md font-semibold text-gray-700 dark:text-gray-200 mb-2"
                     >
                         Slug
                     </label>
@@ -150,11 +150,11 @@ const BlogForm = ({ post, image }) => {
                     <div className="flex flex-col">
                         <label
                             htmlFor="image"
-                            className="text-md font-semibold text-gray-700 mb-2"
+                            className="text-md font-semibold text-gray-700 dark:text-gray-200 mb-2"
                         >
                             Featured image
                         </label>
-                        <div className="border border-dashed border-gray-300 rounded-lg p-4 bg-gray-50">
+                        <div className="border border-dashed border-gray-300 rounded-lg p-4 bg-gray-50 dark:bg-gray-700">
                             <input
                                 type="file"
                                 id="image"
@@ -186,7 +186,7 @@ const BlogForm = ({ post, image }) => {
                         "Experience",
                     ]}
                     className="w-full"
-                    labelClassName="text-sm font-medium text-gray-700 mb-2"
+                    labelClassName="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
                     selectClassName="px-4 py-2 w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     {...register("category", { required: true })}
                 />
@@ -194,13 +194,13 @@ const BlogForm = ({ post, image }) => {
                     options={["active", "inactive"]}
                     label="Status"
                     className="w-full"
-                    labelClassName="text-sm font-medium text-gray-700 mb-2"
+                    labelClassName="text-sm font-medium text-gray-700 dark:text-gray-200 mb-2"
                     selectClassName="px-4 py-2 w-full border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all"
                     {...register("status", { required: true })}
                 />
                 <button
                     type="submit"
-                    className="mt-4 px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
+                    className="mt-4 cursor-pointer px-6 py-3 bg-blue-600 text-white font-medium rounded-lg hover:bg-blue-700 transition-colors focus:ring-2 focus:ring-blue-500 focus:ring-offset-2"
                 >
                     Publish Blog
                 </button>

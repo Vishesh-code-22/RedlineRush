@@ -10,7 +10,7 @@ const Select = (
             {label && (
                 <label
                     htmlFor={id}
-                    className={`text-sm font-medium text-gray-700 mb-2 ${
+                    className={`text-sm font-medium text-gray-700 dark:text-gray-300 mb-2 ${
                         labelClassName || ""
                     }`}
                 >
@@ -21,7 +21,7 @@ const Select = (
                 {...props}
                 id={id}
                 ref={ref}
-                className={`px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white bg-no-repeat cursor-pointer ${
+                className={`px-4 py-2 border border-gray-200 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500 outline-none transition-all appearance-none bg-white dark:bg-gray-800 bg-no-repeat cursor-pointer ${
                     selectClassName || ""
                 }`}
                 style={{

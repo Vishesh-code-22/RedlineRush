@@ -103,13 +103,13 @@ const Blog = () => {
                         </h3>
                         <a
                             href="#"
-                            className="hover:text-black duration-150 font-semibold text-gray-600"
+                            className="hover:text-black duration-150 font-semibold text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
                         >
                             Twitter
                         </a>
                         <a
                             href="#"
-                            className="hover:text-black duration-150 font-semibold text-gray-600"
+                            className="hover:text-black duration-150 font-semibold text-gray-600 dark:text-gray-300 dark:hover:text-gray-100"
                         >
                             Facebook
                         </a>
