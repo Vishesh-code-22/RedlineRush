@@ -15,6 +15,10 @@ import {
     EditThisBlog,
     AddAvatar,
     YourBlogs,
+    Gallary,
+    Submit,
+    Photo,
+    History,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -105,6 +109,38 @@ const router = createBrowserRouter([
                 element: (
                     <AuthLayout authentication roleAuthor>
                         <YourBlogs />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "/gallery",
+                element: (
+                    <AuthLayout authentication roleAuthor={false}>
+                        <Gallary />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "/submit",
+                element: (
+                    <AuthLayout authentication roleAuthor={false}>
+                        <Submit />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "/photo/:id",
+                element: (
+                    <AuthLayout authentication roleAuthor={false}>
+                        <Photo />
+                    </AuthLayout>
+                ),
+            },
+            {
+                path: "/history",
+                element: (
+                    <AuthLayout authentication roleAuthor={false}>
+                        <History />
                     </AuthLayout>
                 ),
             },

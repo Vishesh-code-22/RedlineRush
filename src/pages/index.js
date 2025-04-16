@@ -9,6 +9,10 @@ import WriterLogin from "./WriterLogin.jsx";
 import EditThisBlog from "./EditThisBlog.jsx";
 import AddAvatar from "./AddAvatar.jsx";
 import YourBlogs from "./YourBlogs.jsx";
+import Gallary from "./Gallary.jsx";
+import Submit from "./Submit.jsx";
+import Photo from "./Photo.jsx";
+import History from "./History.jsx";
 
 export {
     Home,
@@ -22,4 +26,8 @@ export {
     EditThisBlog,
     AddAvatar,
     YourBlogs,
+    Gallary,
+    Submit,
+    Photo,
+    History,
 };

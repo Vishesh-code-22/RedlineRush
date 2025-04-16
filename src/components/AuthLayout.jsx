@@ -6,7 +6,6 @@ const AuthLayout = ({ children, authentication = true, roleAuthor = true }) => {
     const navigate = useNavigate();
     const [loader, setLoader] = useState(true);
     const status = useSelector((state) => state.auth.status);
-    const role = useSelector((state) => state.auth.role);
 
     useEffect(() => {
         if (authentication && status !== authentication && !roleAuthor) {
@@ -15,7 +14,7 @@ const AuthLayout = ({ children, authentication = true, roleAuthor = true }) => {
             navigate("/writer-login");
         }
         setLoader(false);
-    }, [status, role, authentication, navigate, roleAuthor]);
+    }, [status, authentication, navigate, roleAuthor]);
     return loader ? (
         <div className="flex items-center justify-center min-h-screen caret-transparent">
             <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>

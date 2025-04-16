@@ -167,6 +167,67 @@ export class DataService {
     getUserImagePreview(imageId) {
         return this.storage.getFileView(conf.appwriteUserBucketId, imageId);
     }
+
+    async addPhoto({ imageId, owner }) {
+        console.log(imageId);
+
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteGalleryCollectionId,
+                imageId,
+                {
+                    owner,
+                }
+            );
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async getImages() {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteGalleryCollectionId
+            );
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async updateHistory(userId, newId) {
+        try {
+            // First, get the current user document to retrieve the existing history array
+            const userDoc = await this.databases.getDocument(
+                conf.appwriteDatabaseId,
+                conf.appweiteUserCollectionId,
+                userId
+            );
+
+            const currentHistory = userDoc.history || [];
+
+            // Append the new ID to the history array (avoid duplicates)
+            const updatedHistory = Array.from(
+                new Set([...currentHistory, newId])
+            );
+
+            // Update the user's history
+            return await this.databases.updateDocument(
+                conf.appwriteDatabaseId,
+                conf.appweiteUserCollectionId,
+                userId,
+                {
+                    history: updatedHistory,
+                }
+            );
+        } catch (error) {
+            console.error("Failed to update history:", error);
+            throw error;
+        }
+    }
 }
 
 const dataService = new DataService();

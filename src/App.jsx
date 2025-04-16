@@ -3,9 +3,10 @@ import { Footer, Navbar } from "./components";
 import { Outlet } from "react-router-dom";
 import { useEffect, useState } from "react";
 import authService from "./appwrite/authService";
-import { addAvatar, login, logout } from "./store/authSlice";
+import { addAvatar, addHistory, login, logout } from "./store/authSlice";
 import dataService from "./appwrite/dataService";
 import { addBlog } from "./store/blogSlice";
+import { setGalleryData } from "./store/otherSlice";
 
 function App() {
     const dispatch = useDispatch();
@@ -21,9 +22,9 @@ function App() {
                     const userMetaData = await authService.getUserMetaData(
                         userData.$id
                     );
-                    console.log(userMetaData);
 
                     dispatch(login({ userData, role: userMetaData.role }));
+                    dispatch(addHistory(userMetaData.history));
                     dispatch(addAvatar(userMetaData.avatar));
                 } else {
                     dispatch(logout());
@@ -32,7 +33,7 @@ function App() {
                 console.error("Auth error:", error);
                 dispatch(logout());
             } finally {
-                setLoading(false);
+                // setLoading(false);
                 // Reset scroll position to top after auth is loaded
                 window.scrollTo(0, 0);
             }
@@ -45,10 +46,29 @@ function App() {
     useEffect(() => {
         const fetchPosts = async () => {
             try {
+                setLoading(true);
                 const posts = await dataService.getPosts();
+                const images = await dataService.getImages();
+                console.log(posts);
+
                 if (posts) {
                     posts.documents.forEach((post) => {
                         dispatch(addBlog(post));
+                    });
+                }
+
+                if (images) {
+                    images.documents.forEach((image) => {
+                        const imageUrl = dataService.getArticleImagePreview(
+                            image.$id
+                        );
+                        dispatch(
+                            setGalleryData({
+                                id: image.$id,
+                                imageUrl,
+                                owner: image.owner,
+                            })
+                        );
                     });
                 }
             } catch (error) {
