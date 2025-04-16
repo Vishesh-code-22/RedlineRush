@@ -15,6 +15,9 @@ const conf = {
     appwriteGalleryCollectionId: String(
         import.meta.env.VITE_APPWRITE_GALLERY_COLLECTION_ID
     ),
+    appwriteEmailCollectionId: String(
+        import.meta.env.VITE_APPWRITE_EMAIL_COLLECTION_ID
+    ),
     tinyMceKey: String(import.meta.env.VITE_TINY_MCE_KEY),
 };
 

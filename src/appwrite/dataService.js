@@ -228,6 +228,34 @@ export class DataService {
             throw error;
         }
     }
+
+    async addEmail(email) {
+        try {
+            return await this.databases.createDocument(
+                conf.appwriteDatabaseId,
+                conf.appwriteEmailCollectionId,
+                ID.unique(),
+                {
+                    email,
+                }
+            );
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
+
+    async getEmails() {
+        try {
+            return await this.databases.listDocuments(
+                conf.appwriteDatabaseId,
+                conf.appwriteEmailCollectionId
+            );
+        } catch (error) {
+            console.error(error);
+            throw error;
+        }
+    }
 }
 
 const dataService = new DataService();
