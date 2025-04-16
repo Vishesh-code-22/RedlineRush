@@ -5,27 +5,17 @@ import HorizontalCard from "../components/HorizontalCard";
 
 const History = () => {
     const historyIds = useSelector((state) => state.auth.history);
+    const blogData = useSelector((state) => state.blog.blogData);
     const [blogs, setBlogs] = useState([]);
-    const [loading, setLoading] = useState(true);
 
     useEffect(() => {
-        const fetchHistoryBlogs = async () => {
-            try {
-                const blogFetches = historyIds.map((id) =>
-                    dataService.getPost(id)
-                );
-                const blogResults = await Promise.all(blogFetches);
-                setBlogs(blogResults);
-            } catch (error) {
-                console.error("Failed to load history blogs:", error);
-            } finally {
-                setLoading(false);
-            }
-        };
-
-        if (historyIds?.length) fetchHistoryBlogs();
-        else setLoading(false);
-    }, [historyIds]);
+        if (historyIds && blogData) {
+            const matchedBlogs = historyIds
+                .map((id) => blogData.find((blog) => blog.$id === id))
+                .filter((blog) => blog); // Remove nulls in case any blog is missing
+            setBlogs(matchedBlogs);
+        }
+    }, [historyIds, blogData]);
 
     return (
         <div
@@ -36,9 +26,7 @@ const History = () => {
                 History
             </h2>
 
-            {loading ? (
-                <p className="text-center text-xl text-gray-500">Loading...</p>
-            ) : blogs.length > 0 ? (
+            {blogs.length > 0 ? (
                 <div className="flex flex-col gap-6 max-w-4xl mx-auto">
                     {blogs.map((blog) => (
                         <HorizontalCard
