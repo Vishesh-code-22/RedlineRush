@@ -7,6 +7,7 @@ const History = () => {
     const historyIds = useSelector((state) => state.auth.history);
     const blogData = useSelector((state) => state.blog.blogData);
     const [blogs, setBlogs] = useState([]);
+    console.log(historyIds);
 
     useEffect(() => {
         if (historyIds && blogData) {

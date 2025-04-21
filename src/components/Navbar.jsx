@@ -25,18 +25,30 @@ const Navbar = () => {
     const dispatch = useDispatch();
 
     const [isOpen, setIsOpen] = useState(false);
-    const [categoryDropdownOpen, setCategoryDropdownOpen] = useState(false);
-    const [profileDropdownOpen, setProfileDropdownOpen] = useState(false);
+    const [desktopCategoryDropdownOpen, setDesktopCategoryDropdownOpen] =
+        useState(false);
+    const [mobibleCategoryDropdownOpen, setMobileCategoryDropdownOpen] =
+        useState(false);
+    const [desktopProfileDropdownOpen, setDesktopProfileDropdownOpen] =
+        useState(false);
+    const [mobileProfileDropdownOpen, setMobileProfileDropdownOpen] =
+        useState(false);
     const scrollRef = useRef();
-    const categoryDropdownRef = useRef(null);
-    const profileDropdownRef = useRef(null);
+    const desktopCategoryDropdownRef = useRef(null);
+    const mobileCategoryDropdownRef = useRef(null);
+    const desktopProfileDropdownRef = useRef(null);
+    const mobileProfileDropdownRef = useRef(null);
     const mobileMenuRef = useRef(null);
 
     const toggleDropdown = (setter) => {
-        if (setter === setCategoryDropdownOpen) {
-            setProfileDropdownOpen(false);
-        } else if (setter === setProfileDropdownOpen) {
-            setCategoryDropdownOpen(false);
+        if (setter === setDesktopCategoryDropdownOpen) {
+            setDesktopProfileDropdownOpen(false);
+        } else if (setter === setDesktopProfileDropdownOpen) {
+            setDesktopCategoryDropdownOpen(false);
+        } else if (setter === setMobileCategoryDropdownOpen) {
+            setMobileProfileDropdownOpen(false);
+        } else if (setter === setMobileProfileDropdownOpen) {
+            setMobileCategoryDropdownOpen(false);
         }
 
         setter((prev) => !prev);
@@ -54,25 +66,47 @@ const Navbar = () => {
     useEffect(() => {
         const handleClickOutside = (event) => {
             if (
-                categoryDropdownRef.current &&
-                !categoryDropdownRef.current.contains(event.target) &&
-                categoryDropdownOpen
+                desktopCategoryDropdownRef.current &&
+                !desktopCategoryDropdownRef.current.contains(event.target) &&
+                desktopCategoryDropdownOpen
             ) {
-                setCategoryDropdownOpen(false);
+                setDesktopCategoryDropdownOpen(false);
             }
+
             if (
-                profileDropdownRef.current &&
-                !profileDropdownRef.current.contains(event.target) &&
-                profileDropdownOpen
+                mobileCategoryDropdownRef.current &&
+                !mobileCategoryDropdownRef.current.contains(event.target) &&
+                mobibleCategoryDropdownOpen
             ) {
-                setProfileDropdownOpen(false);
+                setMobileCategoryDropdownOpen(false);
+            }
+
+            if (
+                desktopProfileDropdownRef.current &&
+                !desktopProfileDropdownRef.current.contains(event.target) &&
+                desktopProfileDropdownOpen
+            ) {
+                setDesktopProfileDropdownOpen(false);
+            }
+
+            if (
+                mobileProfileDropdownRef.current &&
+                !mobileProfileDropdownRef.current.contains(event.target) &&
+                mobileProfileDropdownOpen
+            ) {
+                setMobileProfileDropdownOpen(false);
             }
         };
         document.addEventListener("click", handleClickOutside);
         return () => {
             document.removeEventListener("click", handleClickOutside);
         };
-    }, [categoryDropdownOpen, profileDropdownOpen]);
+    }, [
+        desktopCategoryDropdownOpen,
+        mobibleCategoryDropdownOpen,
+        desktopProfileDropdownOpen,
+        mobileProfileDropdownOpen,
+    ]);
 
     useGSAP(() => {
         ScrollTrigger.create({
@@ -130,9 +164,11 @@ const Navbar = () => {
             );
         } else if (status === true && userData) {
             return (
-                <div className="relative ml-3" ref={profileDropdownRef}>
+                <div className="relative ml-3" ref={desktopProfileDropdownRef}>
                     <button
-                        onClick={() => toggleDropdown(setProfileDropdownOpen)}
+                        onClick={() =>
+                            toggleDropdown(setDesktopProfileDropdownOpen)
+                        }
                         className="flex text-xl rounded-full focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
                     >
                         <span className="sr-only">Open user menu</span>
@@ -145,7 +181,7 @@ const Navbar = () => {
                         </div>
                     </button>
 
-                    {profileDropdownOpen && (
+                    {desktopProfileDropdownOpen && (
                         <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                             <div className="py-1">
                                 {role !== "author" ? (
@@ -154,27 +190,31 @@ const Navbar = () => {
                                             to="/history"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                             onClick={() =>
-                                                setProfileDropdownOpen(false)
+                                                setDesktopProfileDropdownOpen(
+                                                    false
+                                                )
                                             }
                                         >
                                             History
                                         </Link>
-                                        <a
-                                            href="#read-list"
+                                        <Link
+                                            to="/read-list"
                                             className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                             onClick={() =>
-                                                setProfileDropdownOpen(false)
+                                                setDesktopProfileDropdownOpen(
+                                                    false
+                                                )
                                             }
                                         >
                                             Read List
-                                        </a>
+                                        </Link>
                                     </>
                                 ) : (
                                     <Link
                                         to="/your-blogs"
                                         className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
                                         onClick={() =>
-                                            setProfileDropdownOpen(false)
+                                            setDesktopProfileDropdownOpen(false)
                                         }
                                     >
                                         Your Blogs
@@ -183,7 +223,7 @@ const Navbar = () => {
                                 <div
                                     className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100 cursor-pointer"
                                     onClick={() => {
-                                        setProfileDropdownOpen(false);
+                                        setDesktopProfileDropdownOpen(false);
                                         handleLogout();
                                     }}
                                 >
@@ -217,10 +257,14 @@ const Navbar = () => {
             );
         } else if (status === true && userData) {
             return (
-                <div className="mt-6 space-y-3" ref={profileDropdownRef}>
+                <div className="mt-6 space-y-3" ref={mobileProfileDropdownRef}>
                     <div className="px-4 py-3 flex items-center justify-center">
-                        <div className="mr-3 h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-semibold">
-                            {userData.name.charAt(0).toUpperCase()}
+                        <div className="h-10 w-10 rounded-full overflow-hidden flex items-center justify-center shadow-sm mr-2">
+                            <img
+                                src={dataService.getUserImagePreview(avatar)}
+                                alt="User avatar"
+                                className="h-full w-full object-center object-cover"
+                            />
                         </div>
                         <span className="text-lg font-medium">
                             {userData.name}
@@ -235,12 +279,12 @@ const Navbar = () => {
                             >
                                 History
                             </Link>
-                            <a
-                                href="#read-list"
+                            <Link
+                                to="/read-list"
                                 className="block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Read List
-                            </a>
+                            </Link>
                         </>
                     ) : (
                         <Link
@@ -267,7 +311,6 @@ const Navbar = () => {
             );
         }
     };
-    console.log(categoryDropdownOpen);
 
     return (
         <nav className="bg-white shadow-sm sticky top-0 z-20 font-jura dark:bg-black ">
@@ -351,10 +394,15 @@ const Navbar = () => {
                     {showNav && (
                         <div className="hidden md:flex md:items-center md:space-x-4 lg:space-x-6 xl:space-x-8 transition-all duration-200 font-jura">
                             {/* Categories Dropdown */}
-                            <div className="relative" ref={categoryDropdownRef}>
+                            <div
+                                className="relative"
+                                ref={desktopCategoryDropdownRef}
+                            >
                                 <button
                                     onClick={() =>
-                                        toggleDropdown(setCategoryDropdownOpen)
+                                        toggleDropdown(
+                                            setDesktopCategoryDropdownOpen
+                                        )
                                     }
                                     className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer dark:text-gray-300 dark:hover:text-white"
                                 >
@@ -375,7 +423,7 @@ const Navbar = () => {
                                     </svg>
                                 </button>
 
-                                {categoryDropdownOpen && (
+                                {desktopCategoryDropdownOpen && (
                                     <div className="origin-top-right absolute right-0 mt-2 md:w-34 lg:w-40 xl:w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                                         <div className="py-1">
                                             {[
@@ -391,7 +439,7 @@ const Navbar = () => {
                                                     key={item}
                                                     className="block md:px-2 md:py-1 xl:px-4 xl:py-2 md:text-md lg:text-lg xl:text-xl text-gray-700 hover:bg-gray-100"
                                                     onClick={() =>
-                                                        setCategoryDropdownOpen(
+                                                        setDesktopCategoryDropdownOpen(
                                                             false
                                                         )
                                                     }
@@ -407,12 +455,12 @@ const Navbar = () => {
                             {/* Standard navigation items */}
                             {role !== "author" && (
                                 <>
-                                    <a
-                                        href="#community"
+                                    <Link
+                                        to="/community"
                                         className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Community
-                                    </a>
+                                    </Link>
                                     <Link
                                         to="/gallery"
                                         className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
@@ -478,18 +526,22 @@ const Navbar = () => {
                     <div className="py-4 space-y-1 font-jura">
                         <div
                             className="relative px-4"
-                            ref={categoryDropdownRef}
+                            ref={mobileCategoryDropdownRef}
                         >
                             <button
                                 onClick={() =>
-                                    toggleDropdown(setCategoryDropdownOpen)
+                                    toggleDropdown(
+                                        setMobileCategoryDropdownOpen
+                                    )
                                 }
                                 className="w-full py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Categories
                                 <svg
                                     className={`w-4 h-4 ml-1 inline-block transition-transform duration-300 ${
-                                        categoryDropdownOpen ? "rotate-180" : ""
+                                        mobibleCategoryDropdownOpen
+                                            ? "rotate-180"
+                                            : ""
                                     }`}
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
@@ -505,7 +557,7 @@ const Navbar = () => {
                                 </svg>
                             </button>
 
-                            {categoryDropdownOpen && (
+                            {mobibleCategoryDropdownOpen && (
                                 <div className="mt-2 py-2 px-2 space-y-1">
                                     {[
                                         "Reviews",
@@ -520,7 +572,9 @@ const Navbar = () => {
                                             key={item}
                                             className="block px-4 py-3 text-center text-base font-medium text-gray-600 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-400 dark:hover:bg-gray-800"
                                             onClick={() => {
-                                                setCategoryDropdownOpen(false);
+                                                setMobileCategoryDropdownOpen(
+                                                    false
+                                                );
                                                 setIsOpen(false);
                                             }}
                                         >
@@ -533,13 +587,13 @@ const Navbar = () => {
 
                         {role !== "author" && (
                             <>
-                                <a
-                                    href="#community"
+                                <Link
+                                    to="/community"
                                     className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                                     onClick={() => setIsOpen(false)}
                                 >
                                     Community
-                                </a>
+                                </Link>
                                 <Link
                                     to="/gallery"
                                     className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
@@ -547,13 +601,15 @@ const Navbar = () => {
                                 >
                                     Gallery
                                 </Link>
-                                <Link
-                                    to="/writer-signup"
-                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
-                                    onClick={() => setIsOpen(false)}
-                                >
-                                    Write
-                                </Link>
+                                {role !== "user" && (
+                                    <Link
+                                        to="/writer-signup"
+                                        className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                        onClick={() => setIsOpen(false)}
+                                    >
+                                        Write
+                                    </Link>
+                                )}
                                 <Link
                                     to={"/about"}
                                     className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"

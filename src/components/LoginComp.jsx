@@ -90,12 +90,12 @@ const LoginComp = ({ writerlogin = false }) => {
                 {["apple", "google", "twitter"].map((platform) => (
                     <button
                         key={platform}
-                        className="mx-auto px-12 py-2 border border-gray-600 dark:border-gray-400 cursor-pointer rounded-lg shadow-sm hover:bg-gray-100 dark:hover:bg-gray-700 transition duration-100"
+                        className="mx-auto px-8 sm:px-12 py-2 border dark:bg-gray-300 dark:hover:bg-gray-50 border-gray-600 dark:border-gray-400 cursor-pointer rounded-lg shadow-sm hover:bg-gray-100 transition duration-100"
                     >
                         <img
                             src={`/icons/${platform}.png`}
                             alt={platform}
-                            className="h-6 dark:invert"
+                            className="h-6"
                         />
                     </button>
                 ))}

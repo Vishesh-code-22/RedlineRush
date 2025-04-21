@@ -35,7 +35,7 @@ const Community = () => {
                         { icon: "/icons/merch.png", title: "Merch" },
                     ].map((item, index) => (
                         <Link
-                            to={item.title === "Submit" ? "/submit" : "#"}
+                            to={`/${item.title.toLowerCase()}`}
                             key={index}
                             className="flex flex-col justify-center items-center p-3 sm:p-4 bg-white/10 rounded-lg transition-transform duration-300 hover:scale-110 w-36 sm:w-40 md:w-40 lg:w-56 xl:w-80 h-40 sm:h-42 md:h-44 lg:h-52 xl:h-60"
                         >

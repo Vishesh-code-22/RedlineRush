@@ -10,13 +10,13 @@ const YourBlogs = () => {
 
     return (
         <div
-            className="flex w-full flex-col py-12 px-8 font-jura"
+            className="w-full flex flex-col py-12 px-4 sm:px-6 md:px-8 font-jura transition-all duration-200"
             style={{ minHeight: "calc(100vh - 170px)" }}
         >
-            <h2 className="text-6xl font-semibold tracking-wider pb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-wider pb-8 sm:pb-10 md:pb-12 text-center transition-all duration-200">
                 Your Posts
             </h2>
-            <div className="grid grid-cols-4 gap-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full transition-all duration-200">
                 {filteredBlogs.map((blog) => (
                     <Card
                         id={blog.$id}

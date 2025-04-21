@@ -14,10 +14,10 @@ const Card = ({ id, image, title, content, edit = false }) => {
                 alt=""
                 className="w-full object-cover h-64 rounded"
             />
-            <h3 className="title text-2xl tracking-wider font-semibold">
+            <h3 className="title text-xl lg:text-2xl tracking-wider font-semibold duration-300 transition-all">
                 {title}
             </h3>
-            <p className="content font-medium text-gray-500 pb-4">
+            <p className="content font-light text-sm lg:font-normal lg:text-base text-gray-500 pb-4 duration-300 transition-all">
                 {plainTextPreview.length >= 200
                     ? plainTextPreview + "..."
                     : plainTextPreview}

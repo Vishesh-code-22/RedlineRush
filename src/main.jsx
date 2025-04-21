@@ -19,6 +19,7 @@ import {
     Submit,
     Photo,
     History,
+    ComingSoon,
 } from "./pages";
 import { Provider } from "react-redux";
 import store from "./store/store.js";
@@ -143,6 +144,26 @@ const router = createBrowserRouter([
                         <History />
                     </AuthLayout>
                 ),
+            },
+            {
+                path: "/community",
+                element: <ComingSoon />,
+            },
+            {
+                path: "/read-list",
+                element: <ComingSoon />,
+            },
+            {
+                path: "/forum",
+                element: <ComingSoon />,
+            },
+            {
+                path: "/rides",
+                element: <ComingSoon />,
+            },
+            {
+                path: "/merch",
+                element: <ComingSoon />,
             },
         ],
     },

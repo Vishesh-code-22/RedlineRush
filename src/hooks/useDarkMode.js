@@ -27,14 +27,16 @@ export default function useDarkMode() {
             dispatch(setIsDarkMode(newMode));
             return newMode;
         });
-    }, []);
+    }, [dispatch]);
     useEffect(() => {
         const html = document.documentElement;
         if (darkMode) {
             html.classList.add("dark");
+            dispatch(setIsDarkMode(true));
         } else {
             html.classList.remove("dark");
+            dispatch(setIsDarkMode(false));
         }
-    }, [darkMode]);
+    }, [darkMode, dispatch]);
     return { darkMode, toggleDarkMode };
 }

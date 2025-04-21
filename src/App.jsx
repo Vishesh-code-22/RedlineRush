@@ -12,6 +12,7 @@ function App() {
     const dispatch = useDispatch();
     const [loading, setLoading] = useState(true);
     const isLoading = useSelector((state) => state.utility.isLoading);
+    const status = useSelector((state) => state.auth.status);
 
     // Handle authentication state
     useEffect(() => {
@@ -40,7 +41,7 @@ function App() {
         };
 
         checkAuth();
-    }, [dispatch]);
+    }, [dispatch, status]);
 
     // Fetch blog posts separately from auth
     useEffect(() => {
