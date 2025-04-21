@@ -31,13 +31,13 @@ const DeleteBlog = () => {
 
     return (
         <div
-            className="flex w-full flex-col py-12 px-8 font-jura"
+            className="w-full flex flex-col py-12 px-4 sm:px-6 md:px-8 font-jura transition-all duration-200"
             style={{ minHeight: "calc(100vh - 170px)" }}
         >
-            <h2 className="text-6xl font-semibold tracking-wider pb-12 text-center">
+            <h2 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl font-semibold tracking-wider pb-8 sm:pb-10 md:pb-12 text-center transition-all duration-200">
                 Delete Posts
             </h2>
-            <div className="grid grid-cols-4 gap-8 w-full">
+            <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-4 gap-6 sm:gap-8 w-full transition-all duration-200">
                 {filteredBlogs.map((blog) => (
                     <DeleteCard
                         id={blog.$id}
@@ -52,26 +52,27 @@ const DeleteBlog = () => {
                     />
                 ))}
             </div>
+
             {popupOpen && (
                 <div className="fixed inset-0 bg-black/70 flex justify-center items-center z-50">
-                    <div className="bg-white p-8 rounded shadow-lg w-[90%] max-w-md text-center">
-                        <h3 className="text-2xl font-semibold mb-4">
+                    <div className="bg-white p-6 sm:p-8 rounded-2xl shadow-lg w-[90%] max-w-md text-center transition-all duration-200">
+                        <h3 className="text-xl sm:text-2xl font-semibold mb-4">
                             Confirm Deletion
                         </h3>
-                        <p className="mb-6">
+                        <p className="mb-6 text-sm sm:text-base">
                             Are you sure you want to delete{" "}
                             <strong>"{selectedTitle}"</strong>?
                         </p>
                         <div className="flex justify-center gap-4">
                             <button
                                 onClick={confirmDelete}
-                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
+                                className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700 transition-all duration-200"
                             >
                                 Yes, Delete
                             </button>
                             <button
                                 onClick={() => setPopupOpen(false)}
-                                className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400"
+                                className="bg-gray-300 text-black px-4 py-2 rounded hover:bg-gray-400 transition-all duration-200"
                             >
                                 Cancel
                             </button>

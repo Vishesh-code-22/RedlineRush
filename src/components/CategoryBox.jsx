@@ -5,9 +5,9 @@ const CategoryItem = ({ image, title, subtitle }) => {
     return (
         <Link
             to={`/category/${title}`}
-            className="relative h-160 w-full rounded-2xl overflow-hidden"
+            className="relative h-40 sm:h-48 md:h-52 lg:h-64 xl:h-160 w-full rounded-xl sm:rounded-2xl overflow-hidden"
         >
-            <div className="relative w-full h-160 rounded-2xl overflow-hidden shadow-lg">
+            <div className="relative w-full h-full rounded-xl sm:rounded-2xl overflow-hidden shadow-lg">
                 {/* Background Image with Hover Effect */}
                 <div className="absolute inset-0 w-full h-full transition-transform duration-300 hover:scale-110">
                     <div
@@ -19,9 +19,15 @@ const CategoryItem = ({ image, title, subtitle }) => {
                 </div>
 
                 {/* Text Content - Stays Static */}
-                <div className="absolute inset-0 flex flex-col justify-center items-center text-white pointer-events-none">
-                    <h3 className="text-4xl font-bold">{title}</h3>
-                    {subtitle && <p className="text-lg">{subtitle}</p>}
+                <div className="absolute inset-0 flex flex-col justify-center items-center text-white pointer-events-none p-4">
+                    <h3 className="text-xl sm:text-2xl md:text-3xl lg:text-3xl xl:text-4xl font-bold text-center">
+                        {title}
+                    </h3>
+                    {subtitle && (
+                        <p className="text-sm sm:text-base md:text-lg lg:text-xl mt-1 sm:mt-2 text-center">
+                            {subtitle}
+                        </p>
+                    )}
                 </div>
             </div>
         </Link>
@@ -59,7 +65,7 @@ const CategoryBox = () => {
                 <p className="subtitle-main">Explore everything</p>
             </div>
 
-            <div className="flex w-full gap-4">
+            <div className="grid grid-cols-1 xs:grid-cols-2 lg:grid-cols-4 gap-4">
                 {categories.map((item, index) => (
                     <CategoryItem
                         key={index}

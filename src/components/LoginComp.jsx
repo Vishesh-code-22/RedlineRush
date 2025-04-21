@@ -62,7 +62,7 @@ const LoginComp = ({ writerlogin = false }) => {
     const [showPassword, setShowPassword] = useState(false);
 
     return !loading ? (
-        <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-[30%] font-jura">
+        <div className="flex flex-col items-center justify-center sm:justify-baseline bg-white dark:bg-gray-800 p-8 sm:rounded-lg shadow-lg w-full h-[770px] sm:h-auto sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 2xl:w-[30%] font-jura transition-all duration-200">
             {/* Logo and Heading */}
             <div className="flex flex-col items-center mb-6">
                 <img
