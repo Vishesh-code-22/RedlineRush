@@ -58,7 +58,7 @@ const SignupComp = ({ writerSignup = false }) => {
             <div className="w-16 h-16 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
         </div>
     ) : (
-        <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-[30%] font-jura">
+        <div className="flex flex-col items-center justify-center sm:justify-baseline bg-white dark:bg-gray-800 p-8 sm:rounded-lg shadow-lg w-full h-[770px] sm:h-auto sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 2xl:w-[30%] font-jura transition-all duration-200">
             {/* Logo and Heading */}
             <div className="flex flex-col items-center mb-6">
                 <img
@@ -85,7 +85,7 @@ const SignupComp = ({ writerSignup = false }) => {
                 {["apple", "google", "twitter"].map((platform) => (
                     <button
                         key={platform}
-                        className="mx-auto px-12 py-2 border dark:bg-gray-300 dark:hover:bg-gray-50 border-gray-600 dark:border-gray-400 cursor-pointer rounded-lg shadow-sm hover:bg-gray-100 transition duration-100"
+                        className="mx-auto px-8 sm:px-12 py-2 border dark:bg-gray-300 dark:hover:bg-gray-50 border-gray-600 dark:border-gray-400 cursor-pointer rounded-lg shadow-sm hover:bg-gray-100 transition duration-100"
                     >
                         <img
                             src={`/icons/${platform}.png`}

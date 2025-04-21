@@ -7,7 +7,7 @@ const ToggleDarkMode = () => {
     return (
         <div
             onClick={toggleDarkMode}
-            className={`relative w-10 h-10 rounded-full overflow-hidden cursor-pointer transition-colors duration-300 
+            className={`relative w-8 h-8 xl:w-10 xl:h-10 transition-all rounded-full overflow-hidden cursor-pointer duration-300 
                         ${darkMode ? "bg-gray-950" : "bg-white"}`}
         >
             <div
@@ -17,20 +17,20 @@ const ToggleDarkMode = () => {
                 }}
             >
                 {/* Day Icon */}
-                <div className="w-full h-10 flex items-center justify-center">
+                <div className="w-full h-8 xl:h-10 flex items-center justify-center">
                     <img
                         src="/icons/day.png"
                         alt="Light mode"
-                        className="w-6 h-6 object-contain"
+                        className="w-4 h-4 xl:w-6 xl:h-6 object-contain"
                     />
                 </div>
 
                 {/* Night Icon */}
-                <div className="w-full h-10 flex items-center justify-center">
+                <div className="w-full h-8 xl:h-10 flex items-center justify-center">
                     <img
                         src="/icons/night.png"
                         alt="Dark mode"
-                        className="w-6 h-6 object-contain"
+                        className="w-4 h-4 xl:w-6 xl:h-6 object-contain"
                     />
                 </div>
             </div>

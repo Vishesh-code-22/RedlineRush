@@ -103,9 +103,9 @@ const BlogForm = ({ post, image }) => {
     return (
         <form
             onSubmit={handleSubmit(submitBlog)}
-            className="flex flex-col md:flex-row gap-8 w-full rounded-2xl full-shadow p-2 bg-white dark:bg-gray-800"
+            className="flex flex-col md:flex-row gap-8 w-full sm:rounded-2xl full-shadow p-2 bg-white dark:bg-gray-800 transition-all duration-200"
         >
-            <div className="flex flex-col w-full md:w-1/2 gap-4">
+            <div className="flex flex-col w-full md:w-1/2 gap-4 transition-all duration-200">
                 <div className="flex flex-col w-full">
                     <label
                         htmlFor="title"
@@ -145,7 +145,7 @@ const BlogForm = ({ post, image }) => {
                     className="w-full "
                 />
             </div>
-            <div className="flex flex-col w-full md:w-1/2 gap-4">
+            <div className="flex flex-col w-full md:w-1/2 gap-4 transition-all duration-200">
                 <div className="w-full">
                     <div className="flex flex-col">
                         <label

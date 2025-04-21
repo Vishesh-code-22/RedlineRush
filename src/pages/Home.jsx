@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useMemo } from "react";
 import {
     HomeCard,
     CategoryBox,
@@ -21,12 +21,16 @@ import { setShowNav } from "../store/utilitySlice";
 
 const Home = () => {
     const blogData = useSelector((state) => state.blog.blogData);
-    const filteredBlogs = blogData.slice(-5).reverse();
+    const filteredBlogs = useMemo(
+        () => blogData.slice(-5).reverse(),
+        [blogData]
+    );
 
     const dispatch = useDispatch();
     dispatch(setShowNav(true));
+
     return (
-        <div className="flex flex-col w-full font-jura px-16 gap-12">
+        <div className="flex flex-col w-full font-jura px-4 gap-3 md:px-8 lg:px-12 xl:px-16 md:gap-6 lg:gap-8 xl:gap-12 transition-all duration-200">
             {!filteredBlogs || filteredBlogs.length === 0 ? null : (
                 <div className="flex w-full flex-col">
                     <div className="title-container">
@@ -50,6 +54,13 @@ const Home = () => {
                         className="w-full rounded-2xl overflow-hidden"
                         parallax={true}
                         loop={true}
+                        // Add these props to improve resize behavior
+                        watchOverflow={true}
+                        resizeObserver={true}
+                        updateOnWindowResize={true}
+                        onResize={(swiper) => {
+                            swiper.update(); // Properly update swiper on resize
+                        }}
                     >
                         {filteredBlogs.map((blog) => (
                             <SwiperSlide key={blog.$id}>

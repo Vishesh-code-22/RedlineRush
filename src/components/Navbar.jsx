@@ -30,6 +30,7 @@ const Navbar = () => {
     const scrollRef = useRef();
     const categoryDropdownRef = useRef(null);
     const profileDropdownRef = useRef(null);
+    const mobileMenuRef = useRef(null);
 
     const toggleDropdown = (setter) => {
         if (setter === setCategoryDropdownOpen) {
@@ -93,13 +94,36 @@ const Navbar = () => {
         });
     }, []);
 
+    // Animation for mobile menu
+    useEffect(() => {
+        if (mobileMenuRef.current) {
+            if (isOpen) {
+                // Open animation
+                gsap.to(mobileMenuRef.current, {
+                    height: "auto",
+                    opacity: 1,
+                    duration: 0.4,
+                    ease: "power2.out",
+                });
+            } else {
+                // Close animation
+                gsap.to(mobileMenuRef.current, {
+                    height: 0,
+                    opacity: 0,
+                    duration: 0.3,
+                    ease: "power2.in",
+                });
+            }
+        }
+    }, [isOpen]);
+
     // Render login button if status is explicitly false, otherwise show loading
     const renderAuthSection = () => {
         if (status === false) {
             return (
                 <Link
                     to={"/login"}
-                    className="ml-2 px-6 py-1 text-xl font-medium text-white bg-black rounded-md hover:bg-gray-800 dark:bg-gray-200 dark:text-black dark:hover:bg-white"
+                    className="md:px-2 lg:px-4 xl:px-6 py-1 md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-white bg-black rounded-md hover:bg-gray-800 dark:bg-gray-200 dark:text-black dark:hover:bg-white"
                 >
                     Login
                 </Link>
@@ -186,32 +210,34 @@ const Navbar = () => {
             return (
                 <Link
                     to={"/login"}
-                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                    className="mt-3 block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-white bg-black rounded-md hover:bg-gray-800 transition-colors duration-200 dark:bg-gray-200 dark:text-black dark:hover:bg-white"
                 >
                     Login
                 </Link>
             );
         } else if (status === true && userData) {
             return (
-                <div ref={profileDropdownRef}>
-                    <div className="pl-3 pr-4 py-2 flex items-center">
-                        <div className="mr-3 h-8 w-8 rounded-full bg-blue-500 flex items-center justify-center text-white">
+                <div className="mt-6 space-y-3" ref={profileDropdownRef}>
+                    <div className="px-4 py-3 flex items-center justify-center">
+                        <div className="mr-3 h-10 w-10 rounded-full bg-blue-500 flex items-center justify-center text-white text-lg font-semibold">
                             {userData.name.charAt(0).toUpperCase()}
                         </div>
-                        <span className="font-medium">{userData.name}</span>
+                        <span className="text-lg font-medium">
+                            {userData.name}
+                        </span>
                     </div>
 
                     {role !== "author" ? (
                         <>
                             <Link
                                 to="/history"
-                                className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                className="block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 History
                             </Link>
                             <a
                                 href="#read-list"
-                                className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                                className="block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Read List
                             </a>
@@ -219,13 +245,13 @@ const Navbar = () => {
                     ) : (
                         <Link
                             to="/your-blogs"
-                            className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                            className="block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                         >
                             Your Blogs
                         </Link>
                     )}
                     <button
-                        className="block pl-6 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
+                        className="block w-11/12 mx-auto px-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                         onClick={handleLogout}
                     >
                         Logout
@@ -235,18 +261,19 @@ const Navbar = () => {
         } else {
             // Loading state
             return (
-                <div className="pl-3 pr-4 py-2 flex items-center justify-center">
+                <div className="py-4 flex items-center justify-center">
                     <div className="w-8 h-8 border-4 border-gray-300 border-t-blue-500 rounded-full animate-spin"></div>
                 </div>
             );
         }
     };
+    console.log(categoryDropdownOpen);
 
     return (
         <nav className="bg-white shadow-sm sticky top-0 z-20 font-jura dark:bg-black ">
             <div className="max-w-full mx-auto px-4 sm:px-6 lg:px-6 ">
                 <div
-                    className="height-div flex justify-between h-22 "
+                    className="height-div flex justify-between h-22"
                     ref={scrollRef}
                 >
                     {/* Left side - Brand */}
@@ -262,10 +289,10 @@ const Navbar = () => {
                                         : "/icons/speedometer.png"
                                 }
                                 alt=""
-                                className="h-18 w-18"
+                                className="h-14 w-14 md:h-12 md:w-12 lg:h-14 lg:w-14 xl:h-16 xl:w-16 transition-all duration-200"
                             />
                             <span
-                                className="ml-2 text-3xl font-bold text-transparent bg-clip-text font-jura"
+                                className="ml-2 text-2xl md:text-xl lg:text-2xl xl:text-3xl transition-all duration-200 font-bold text-transparent bg-clip-text font-jura"
                                 style={{
                                     backgroundImage:
                                         "url('https://images.unsplash.com/photo-1544159465-672a2b0d5f2c?q=80&w=2670&auto=format&fit=crop&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D')",
@@ -279,7 +306,7 @@ const Navbar = () => {
                     </div>
                     {/* Mobile menu button */}
                     {showNav && (
-                        <div className="flex items-center sm:hidden font-jura">
+                        <div className="flex items-center md:hidden font-jura">
                             <button
                                 onClick={() => setIsOpen(!isOpen)}
                                 className="inline-flex items-center justify-center p-2 rounded-md text-gray-400 hover:text-gray-500 hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-inset focus:ring-blue-500"
@@ -287,7 +314,7 @@ const Navbar = () => {
                                 <span className="sr-only">Open main menu</span>
                                 {isOpen ? (
                                     <svg
-                                        className="block h-6 w-6"
+                                        className="block h-8 w-8 transition-transform duration-300 rotate-180"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -302,7 +329,7 @@ const Navbar = () => {
                                     </svg>
                                 ) : (
                                     <svg
-                                        className="block h-6 w-6"
+                                        className="block h-8 w-8 transition-transform duration-300"
                                         xmlns="http://www.w3.org/2000/svg"
                                         fill="none"
                                         viewBox="0 0 24 24"
@@ -322,14 +349,14 @@ const Navbar = () => {
 
                     {/* Right side - Navigation */}
                     {showNav && (
-                        <div className="hidden sm:flex sm:items-center sm:space-x-4 font-jura">
+                        <div className="hidden md:flex md:items-center md:space-x-4 lg:space-x-6 xl:space-x-8 transition-all duration-200 font-jura">
                             {/* Categories Dropdown */}
                             <div className="relative" ref={categoryDropdownRef}>
                                 <button
                                     onClick={() =>
                                         toggleDropdown(setCategoryDropdownOpen)
                                     }
-                                    className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer dark:text-gray-300 dark:hover:text-white"
+                                    className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 focus:outline-none cursor-pointer dark:text-gray-300 dark:hover:text-white"
                                 >
                                     Categories
                                     <svg
@@ -349,7 +376,7 @@ const Navbar = () => {
                                 </button>
 
                                 {categoryDropdownOpen && (
-                                    <div className="origin-top-right absolute right-0 mt-2 w-48 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
+                                    <div className="origin-top-right absolute right-0 mt-2 md:w-34 lg:w-40 xl:w-44 rounded-md shadow-lg bg-white ring-1 ring-black ring-opacity-5 z-10">
                                         <div className="py-1">
                                             {[
                                                 "Reviews",
@@ -362,7 +389,7 @@ const Navbar = () => {
                                                 <Link
                                                     to={`/category/${item}`}
                                                     key={item}
-                                                    className="block px-4 py-2 text-xl text-gray-700 hover:bg-gray-100"
+                                                    className="block md:px-2 md:py-1 xl:px-4 xl:py-2 md:text-md lg:text-lg xl:text-xl text-gray-700 hover:bg-gray-100"
                                                     onClick={() =>
                                                         setCategoryDropdownOpen(
                                                             false
@@ -382,27 +409,27 @@ const Navbar = () => {
                                 <>
                                     <a
                                         href="#community"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Community
                                     </a>
                                     <Link
                                         to="/gallery"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Gallery
                                     </Link>
                                     {role !== "user" && (
                                         <Link
                                             to="/writer-signup"
-                                            className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                            className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                         >
                                             Write
                                         </Link>
                                     )}
                                     <Link
                                         to={"/about"}
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         About
                                     </Link>
@@ -414,19 +441,19 @@ const Navbar = () => {
                                 <>
                                     <Link
                                         to="/add-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className="md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Add Post
                                     </Link>
                                     <Link
                                         to="/edit-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className=" md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Update Post
                                     </Link>
                                     <Link
                                         to="/delete-blog"
-                                        className="px-3 py-2 text-xl font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
+                                        className=" md:text-md lg:text-lg xl:text-xl transition-all duration-200 font-medium text-gray-700 hover:text-gray-900 dark:text-gray-300 dark:hover:text-white"
                                     >
                                         Delete Post
                                     </Link>
@@ -442,19 +469,28 @@ const Navbar = () => {
             </div>
 
             {/* Mobile menu, show/hide based on menu state */}
-            {isOpen && showNav && (
-                <div className="sm:hidden border-t border-gray-200 font-jura">
-                    <div className="pt-2 pb-3 space-y-1">
-                        <div ref={categoryDropdownRef}>
+            {showNav && (
+                <div
+                    ref={mobileMenuRef}
+                    className="md:hidden overflow-hidden opacity-0 h-0 bg-white dark:bg-black"
+                    style={{ willChange: "height, opacity" }}
+                >
+                    <div className="py-4 space-y-1 font-jura">
+                        <div
+                            className="relative px-4"
+                            ref={categoryDropdownRef}
+                        >
                             <button
                                 onClick={() =>
                                     toggleDropdown(setCategoryDropdownOpen)
                                 }
-                                className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                className="w-full py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
                             >
                                 Categories
                                 <svg
-                                    className="w-4 h-4 ml-1 inline-block"
+                                    className={`w-4 h-4 ml-1 inline-block transition-transform duration-300 ${
+                                        categoryDropdownOpen ? "rotate-180" : ""
+                                    }`}
                                     xmlns="http://www.w3.org/2000/svg"
                                     fill="none"
                                     viewBox="0 0 24 24"
@@ -470,7 +506,7 @@ const Navbar = () => {
                             </button>
 
                             {categoryDropdownOpen && (
-                                <div className="pl-6 pr-4 py-2 space-y-1">
+                                <div className="mt-2 py-2 px-2 space-y-1">
                                     {[
                                         "Reviews",
                                         "Guides",
@@ -482,10 +518,11 @@ const Navbar = () => {
                                         <Link
                                             to={`/category/${item}`}
                                             key={item}
-                                            className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800"
-                                            onClick={() =>
-                                                setCategoryDropdownOpen(false)
-                                            }
+                                            className="block px-4 py-3 text-center text-base font-medium text-gray-600 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-400 dark:hover:bg-gray-800"
+                                            onClick={() => {
+                                                setCategoryDropdownOpen(false);
+                                                setIsOpen(false);
+                                            }}
                                         >
                                             {item}
                                         </Link>
@@ -498,25 +535,29 @@ const Navbar = () => {
                             <>
                                 <a
                                     href="#community"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Community
                                 </a>
                                 <Link
                                     to="/gallery"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Gallery
                                 </Link>
                                 <Link
                                     to="/writer-signup"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Write
                                 </Link>
                                 <Link
                                     to={"/about"}
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     About
                                 </Link>
@@ -527,19 +568,22 @@ const Navbar = () => {
                             <>
                                 <Link
                                     to="/add-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Add Post
                                 </Link>
                                 <Link
                                     to="/edit-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Update Post
                                 </Link>
                                 <Link
                                     to="/delete-blog"
-                                    className="block pl-3 pr-4 py-2 border-l-4 border-transparent text-base font-medium text-gray-600 hover:bg-gray-50 hover:border-gray-300 hover:text-gray-800 dark:text-gray-300 dark:hover:text-white"
+                                    className="block mx-4 py-3 text-center text-base font-medium text-gray-700 rounded-md hover:bg-gray-100 transition-colors duration-200 dark:text-gray-300 dark:hover:bg-gray-800"
+                                    onClick={() => setIsOpen(false)}
                                 >
                                     Delete Post
                                 </Link>
@@ -547,7 +591,10 @@ const Navbar = () => {
                         )}
 
                         {/* Mobile Authentication */}
-                        {renderMobileAuthSection()}
+                        <div className="px-4 mt-4">
+                            <div className="w-full h-px bg-gray-200 dark:bg-gray-700 my-4"></div>
+                            {renderMobileAuthSection()}
+                        </div>
                     </div>
                 </div>
             )}
