@@ -90,7 +90,7 @@ const Submit = () => {
             className="flex w-full justify-center items-center"
             style={{ minHeight: "calc(100vh - 170px)" }}
         >
-            <div className="flex flex-col items-center bg-white dark:bg-gray-800 p-8 rounded-lg shadow-lg w-[30%] font-jura">
+            <div className="flex flex-col items-center justify-center sm:justify-baseline bg-white dark:bg-gray-800 p-8 sm:rounded-lg shadow-lg w-full h-[770px] sm:h-auto sm:w-[70%] md:w-[60%] lg:w-[50%] xl:w-[40%] 2xl:w-[30%] font-jura transition-all duration-200">
                 {/* Logo and Heading */}
                 <div className="flex flex-col items-center mb-6">
                     <img
@@ -110,11 +110,11 @@ const Submit = () => {
 
                 {/* Avatar Preview - Larger Size */}
                 <div className="mb-8">
-                    <div className="relative w-86 h-72 mx-auto">
+                    <div className="relative w-72 h-64 sm:w-86 sm:h-72 mx-auto">
                         <img
                             src={previewUrl}
                             alt="Profile"
-                            className="w-86 h-72 border-4 rounded-2xl border-gray-200 dark:border-gray-700 object-cover"
+                            className="sm:w-86 sm:h-72 w-72 h-64 border-4 rounded-2xl border-gray-200 dark:border-gray-700 object-cover"
                         />
                         <button
                             onClick={triggerFileInput}

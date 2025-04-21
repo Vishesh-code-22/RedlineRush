@@ -13,6 +13,7 @@ import Gallary from "./Gallary.jsx";
 import Submit from "./Submit.jsx";
 import Photo from "./Photo.jsx";
 import History from "./History.jsx";
+import ComingSoon from "./ComingSoon.jsx";
 
 export {
     Home,
@@ -30,4 +31,5 @@ export {
     Submit,
     Photo,
     History,
+    ComingSoon,
 };

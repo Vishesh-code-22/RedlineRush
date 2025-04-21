@@ -7,12 +7,12 @@ const HorizontalCard = ({ id, image, title, content }) => {
     return (
         <Link
             to={`/blog/${id}`}
-            className="flex gap-6 items-start p-4 border rounded-lg shadow-md hover:shadow-xl dark:shadow-gray-500 dark:hover:shadow-lg transition-all duration-300 mb-4"
+            className="flex flex-col lg:flex-row gap-6 items-start p-4 border rounded-lg shadow-md hover:shadow-xl dark:shadow-gray-500 dark:hover:shadow-lg transition-all duration-300 mb-4"
         >
             <img
                 src={image}
                 alt={title}
-                className="w-48 h-32 object-cover rounded-md flex-shrink-0"
+                className="w-full h-52 lg:w-48 lg:h-32 object-cover rounded-md flex-shrink-0"
             />
             <div className="flex flex-col">
                 <h3 className="text-2xl font-semibold tracking-wide mb-2">
